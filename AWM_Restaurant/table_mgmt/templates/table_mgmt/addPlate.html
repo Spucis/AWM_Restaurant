@@ -1,0 +1,13 @@
+{% extends "table_mgmt/index.html" %}
+
+{% block content %}
+Inserimento di un nuovo piatto
+
+<br />
+
+<form method="POST">{% csrf_token %} 
+    {{ form.as_p }}
+    <input type="submit" value="Invia" />
+</form>
+
+{% endblock %}

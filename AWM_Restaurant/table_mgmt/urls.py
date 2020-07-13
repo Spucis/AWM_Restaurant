@@ -21,4 +21,6 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('tables/', views.tables, name='tables'),
+    path('tables/add/', views.addTable, name='addTable'),
+    path('tables/addp/', views.addPlate, name='addPlate'),
 ]

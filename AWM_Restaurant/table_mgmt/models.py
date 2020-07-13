@@ -3,7 +3,7 @@ from django.forms import PasswordInput
 
 # Create your models here.
 class Table(models.Model):
-    number = models.IntegerField(default=0)
+    number = models.IntegerField()
 
     def __str__(self):
         return 'Table {}'.format(self.number)
@@ -60,7 +60,7 @@ class Client_Auth(Client):
 
 class Menu(models.Model):
     code = models.AutoField(primary_key=True)
-    day = models.CharField(max_length=20)
+    description = models.CharField(max_length=100)
 
     def __str__(self):
         return 'Menu {}'.format(self.code)

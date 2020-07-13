@@ -6,6 +6,8 @@
 <br />
 <br />
 Tables:
+<br />
+<a href={% url 'addTable' %}>Aggiungi un tavolo</a>
 <ul>
     {% for table in tables %}
         <li>Table {{ table.number }}</li>
@@ -13,6 +15,8 @@ Tables:
 
 </ul>
 Plates
+<br />
+<a href={% url 'addPlate' %}>Aggiungi un piatto</a>
 <ul>
     {% for plate in plates %}
         <li>'{{ plate.name }}' availability: {{ plate.days }}</li>
