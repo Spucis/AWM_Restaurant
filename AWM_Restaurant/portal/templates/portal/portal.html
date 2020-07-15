@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% comment %}
+This is the main template for all portal pages.
+{% endcomment %}
+
+{% block title %}
+<title>Web Portal </title>
+{% endblock %}
+{% block content %}
+<header>
+    <h1> Restaurant | Web Portal</h1>
+</header>
+<section>
+    <ul>
+        <li><a href="/">Main Page</a></li>
+        <li><a href="{% url 'table_mgmt:tables' %}">Restaurant App</a></li>
+        <li><a href="{% url 'logout_view' %}">Logout</a></li>
+    </ul>
+</section>
+{% block a_content %}{% endblock %}
+
+<footer>
+</footer>
+
+{% endblock %}
+

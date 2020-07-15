@@ -3,7 +3,7 @@ from django.forms import PasswordInput
 
 # Create your models here.
 class Table(models.Model):
-    number = models.IntegerField()
+    number = models.IntegerField(primary_key=True)
 
     def __str__(self):
         return 'Table {}'.format(self.number)
