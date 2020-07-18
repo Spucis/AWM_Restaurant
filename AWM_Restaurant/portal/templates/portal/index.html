@@ -6,4 +6,11 @@
     <h2>Welcome {{ request.user.username | capfirst }}</h2>
     <p>This is the entry page of the Web portal. Thanks for logging in.</p>
 </section>
+
+{% if items.addiction == "Clients" %}
+SEI UN CLIENTE
+{% else %}
+NON SEI UN CLIENTE
+{% endif %}
+
 {% endblock %}

@@ -14,7 +14,7 @@ def index(request):
 def tables(request):
     tables = Table.objects.all()
     plates = Plate.objects.all()
-    return render(request, 'table_mgmt/tables.html',{
+    return render(request, 'table_mgmt/tables.html', {
         'title': 'Tables page',
         'content': 'Tables and plates list',
         'tables': tables,

@@ -1,5 +1,6 @@
 from django.db import models
 from django.forms import PasswordInput
+#from django.contrib.auth.models import User
 
 # Create your models here.
 class Table(models.Model):
@@ -34,6 +35,7 @@ class Admin(Person):
 class Order(models.Model):
     code = models.AutoField(primary_key=True)
     t_code = models.ForeignKey(Table, on_delete=models.CASCADE)
+    # waiter = models.ForeignKey(User, on_delete=models.CASCADE) ??
     waiter = models.ForeignKey(Waiter, on_delete=models.CASCADE)
     time = models.DateTimeField()
     plates = {}
