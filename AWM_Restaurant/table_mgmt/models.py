@@ -31,39 +31,15 @@ class Admin(Person):
     def __str__(self):
         return 'Admin {}'.format(self.code)
 
-class Order(models.Model):
-    code = models.AutoField(primary_key=True)
-    t_code = models.ForeignKey(Table, on_delete=models.CASCADE)
-    waiter = models.ForeignKey(Waiter, on_delete=models.CASCADE)
-    time = models.DateTimeField()
-    plates = {}
-
-    def __str__(self):
-        return 'Order {}'.format(self.code)
-
-class Client(Person):
-    name = models.CharField(max_length=50)      # F
-    surname = models.CharField(max_length=50)   # F
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return 'Client {}'.format(self.code)
-
-class Client_Auth(Client):
-    e_mail = models.EmailField(max_length=254)
-
-    class Meta:
-        verbose_name_plural = 'Clients_Auth'
-
-    def __str__(self):
-        return 'Client_Auth {}'.format(self.code)
-
 class Menu(models.Model):
     code = models.AutoField(primary_key=True)
     description = models.CharField(max_length=100)
 
     def __str__(self):
         return 'Menu {}'.format(self.code)
+
+    def plates(self):
+        return Plate.object.all()
 
 class Plate(models.Model):
     code = models.AutoField(primary_key=True)
@@ -108,6 +84,33 @@ class Plate(models.Model):
 
     def __str__(self):
         return 'Plate {}'.format(self.code)
+
+class Order(models.Model):
+    code = models.AutoField(primary_key=True)
+    t_code = models.ForeignKey(Table, on_delete=models.CASCADE)
+    waiter = models.ForeignKey(Waiter, on_delete=models.CASCADE)
+    time = models.DateTimeField()
+    plates = models.ManyToManyField(Plate)
+
+    def __str__(self):
+        return 'Order {}'.format(self.code)
+
+class Client(Person):
+    name = models.CharField(max_length=50)      # F
+    surname = models.CharField(max_length=50)   # F
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return 'Client {}'.format(self.code)
+
+class Client_Auth(Client):
+    e_mail = models.EmailField(max_length=254)
+
+    class Meta:
+        verbose_name_plural = 'Clients_Auth'
+
+    def __str__(self):
+        return 'Client_Auth {}'.format(self.code)
 
 
 
