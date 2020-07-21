@@ -25,5 +25,5 @@ urlpatterns = [
     path('tables/addp/', views.addPlate, name='addPlate'),
     path('tables/cmenu/', views.createMenu, name='createMenu'),
     path('clients/order/<int:code>/', views.updateOrder, name='order'),
-    path('tables/create_order/', views.createOrder, name='createOrder'),
+    path('tables/create_order/<int:table>/', views.createOrder, name='createOrder'),
 ]

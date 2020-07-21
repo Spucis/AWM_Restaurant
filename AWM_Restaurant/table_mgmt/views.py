@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Table, Plate, Menu
+from django.contrib.auth.decorators import permission_required
 from .forms import *
-
+from .models import *
 # Create your views here.
+
 def index(request):
     return render(request, 'table_mgmt/index.html', {
         'title': 'Index page',
@@ -11,19 +12,45 @@ def index(request):
     })
 
 def tables(request):
-    # if admin, else if client
-    tables = Table.objects.all()
-    plates = Plate.objects.all()
-    menu = Menu.objects.all()
+    tables = {}
+    plates = {}
+    menu = {}
+    orders = {}
 
+    if request.user.has_perm('table_mgmt.add_table'):
+        tables['can_add'] = True
+    if request.user.has_perm('table_mgmt.view_table'):
+        tables['data'] = Table.objects.all()
+        tables['can_view'] = True
+
+    if request.user.has_perm('table_mgmt.add_plate'):
+        plates['can_add'] = True
+    if request.user.has_perm('table_mgmt.view_plate'):
+        plates['data'] = Plate.objects.all()
+        plates['can_view'] = True
+
+    if request.user.has_perm('table_mgmt.add_menu'):
+        menu['can_add'] = True
+    if request.user.has_perm('table_mgmt.view_menu'):
+        menu['data'] = Menu.objects.all()
+        menu['can_view'] = True
+
+    if request.user.has_perm('table_mgmt.add_order'):
+        orders['can_add'] = True
+    if request.user.has_perm('table_mgmt.view_order'):
+        orders['data'] = Order.objects.filter(client=request.user)
+        orders['can_view'] = True
+    
     return render(request, 'table_mgmt/tables.html',{
         'title': 'Tables page',
         'content': 'Tables and plates list',
         'menu': menu,
         'tables': tables,
-        'plates': plates
+        'plates': plates,
+        'orders': orders,
     })
 
+@permission_required('table_mgmt.add_menu', raise_exception=True)
 def createMenu(request):
     if request.method == 'POST':
         menuForm = MenuForm(request.POST)
@@ -40,6 +67,7 @@ def createMenu(request):
             'content': "Aggiungi tavolo",
         })
 
+@permission_required('table_mgmt.add_table', raise_exception=True)
 def addTable(request):
     if request.method == 'POST':
         tableForm = TableForm(request.POST)
@@ -56,6 +84,7 @@ def addTable(request):
             'content': "Aggiungi tavolo",
         })
 
+@permission_required('table_mgmt.add_plate', raise_exception=True)
 def addPlate(request):
     if request.method == 'POST':
         plate = PlateForm(request.POST)
@@ -76,25 +105,29 @@ def client(request):
         'plates': plates
     })
 
-def createOrder(request):
+@permission_required('table_mgmt.change_order', raise_exception=True)
+def createOrder(request, table):
     if request.method == 'POST':
         orderForm = OrderForm(request.POST)
         if orderForm.is_valid():
             orderForm.save()
-            return HttpResponseRedirect('/clients')
+            return HttpResponseRedirect('/tables')
         else:
-            return HttpResponseRedirect('/clients/order/')
+            print(orderForm.errors)
+            return HttpResponseRedirect('/tables/create_order/{}'.format(table))
     else:
-        orderForm = OrderForm()
+        psw = hash("{}{}".format(table, request.user.username))
+        initial = {'table': table, 'client': request.user.username, 'password': psw}
+        orderForm = OrderForm(initial = initial)
         return render(request, 'table_mgmt/createOrder.html', {
             'form': orderForm,
-            'content': 'Aggiorna Ordine',
+            'content': 'Crea Ordine',
         })
 
+@permission_required('table_mgmt.change_order', raise_exception=True)
 def updateOrder(request, code):
 
     print(code)
-
     if request.method == 'POST':
         updateorderForm = UpdateOrderForm(request.POST)
         if updateorderForm.is_valid():
