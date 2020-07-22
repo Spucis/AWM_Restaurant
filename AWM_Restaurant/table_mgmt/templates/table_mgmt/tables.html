@@ -8,59 +8,34 @@
 Menu:
 <br />
 <ul>
-    {% if menu.can_add %}
     <a href={% url 'table_mgmt:createMenu' %}>Aggiungi un menù</a>
-    {% endif %}
-    {% if menu.can_view %}
-        {% for m in menu.data %}
-            <li>{{ m.description }}</li>
-        {% endfor %}
-    {% endif %}
+    <br />
+    {% for m in menu %}
+        <li>{{ m.description }}</li>
+    {% endfor %}
 </ul>
-
-
 
 Tables:
 <br />
 <ul>
-    {% if tables.can_add %}
     <a href={% url 'table_mgmt:addTable' %}>Aggiungi un tavolo</a>
-    {% endif %}
-
-    {% if tables.can_view %}
-        {% for table in tables.data %}
-    <li><a href={% url 'table_mgmt:createOrder' table=table.number %}>Table {{ table.number }}</a></li>
-        {% endfor %}
-    {% endif %}
+    {% for table in tables %}
+        <li>Table {{ table.number }}</li>
+    {% endfor %}
 </ul>
 
 Plates:
 <br />
 <ul>
-    {% if plates.can_add %}
     <a href={% url 'table_mgmt:addPlate' %}>Aggiungi un piatto</a>
-    {% endif %}
-    {% if plates.can_view %}
-        {% for plate in plates.data %}
-            <li>'{{ plate.name }}' availability: {{ plate.days|join:", " }}</li>
-        {% endfor %}
-    {% endif %}
+    {% for plate in plates %}
+        <li>'{{ plate.name }}' availability: {{ plate.days }}</li>
+    {% endfor %}
 </ul>
-
-
 
 Order:
 <ul>
-    {% if orders.can_add %}
     <a href={% url 'table_mgmt:createOrder' %}>Crea un nuovo ordine</a>
-    {% endif %}
-    {% if orders.can_view %}
-        {% for order in orders.data %}
-            <li>'{{ order.name }}' availability: {{ order.days }}</li>
-        {% endfor %}
-    {% endif %}
 </ul>
-
 {% endblock %}
-
 

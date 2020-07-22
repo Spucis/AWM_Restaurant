@@ -1,5 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.forms import PasswordInput
+#from django.contrib.auth.models import User
 
 # Create your models here.
 class Table(models.Model):
@@ -7,6 +8,29 @@ class Table(models.Model):
 
     def __str__(self):
         return 'Table {}'.format(self.number)
+
+class Person(models.Model):
+    code = models.AutoField(primary_key=True)
+
+    class Meta:
+        verbose_name_plural = 'People'
+
+    def __str__(self):
+        return 'Person {}'.format(self.code)
+
+class Waiter(Person):
+    # Lista ordini con Query
+    name = models.CharField(max_length=50)      # O
+    surname = models.CharField(max_length=50)   # O
+
+    def __str__(self):
+        return 'Waiter {}'.format(self.code)
+
+class Admin(Person):
+    psw = models.CharField(max_length=32)
+
+    def __str__(self):
+        return 'Admin {}'.format(self.code)
 
 class Menu(models.Model):
     code = models.AutoField(primary_key=True)
@@ -21,8 +45,9 @@ class Menu(models.Model):
 class Plate(models.Model):
     code = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
-
+    #days = []
     # Day availability
+
     monday = models.BooleanField(default=False)
     tuesday = models.BooleanField(default=False)
     wednesday = models.BooleanField(default=False)
@@ -33,7 +58,7 @@ class Plate(models.Model):
 
     description = models.CharField(max_length=100)
     price = models.FloatField()
-    available = models.BooleanField(default=True)
+    available = models.BooleanField()
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
     # Proprietà piatto (vegan etc...)
 
@@ -63,19 +88,15 @@ class Plate(models.Model):
 
 class Order(models.Model):
     code = models.AutoField(primary_key=True)
-    table = models.OneToOneField(Table, on_delete=models.CASCADE)
-    date = models.DateTimeField()
-    client = models.ForeignKey(User, on_delete=models.CASCADE, related_name='client')
-    waiter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='waiter')
+    t_code = models.ForeignKey(Table, on_delete=models.CASCADE)
+    waiter = models.ForeignKey(Waiter, on_delete=models.CASCADE)
+    # waiter = models.ForeignKey(User, on_delete=models.CASCADE) ??
+    time = models.DateTimeField()
     plates = models.ManyToManyField(Plate)
-    password = models.CharField(max_length=30)
-
-    class Meta:
-        unique_together = (("code", "table", "date"))
 
     def __str__(self):
         return 'Order {}'.format(self.code)
-"""
+
 class Client(Person):
     name = models.CharField(max_length=50)      # F
     surname = models.CharField(max_length=50)   # F
@@ -92,33 +113,6 @@ class Client_Auth(Client):
 
     def __str__(self):
         return 'Client_Auth {}'.format(self.code)
-"""
 
 
-"""
-class Prenotation(models.Model):
-    table = models.ForeignKey(Table, on_delete=models.CASCADE)
 
-class Person(models.Model):
-    code = models.AutoField(primary_key=True)
-
-    class Meta:
-        verbose_name_plural = 'People'
-
-    def __str__(self):
-        return 'Person {}'.format(self.code)
-
-class Waiter(Person):
-    # Lista ordini con Query
-    name = models.CharField(max_length=50)      # O
-    surname = models.CharField(max_length=50)   # O
-
-    def __str__(self):
-        return 'Waiter {}'.format(self.code)
-
-class Admin(Person):
-    psw = models.CharField(max_length=32)
-
-    def __str__(self):
-        return 'Admin {}'.format(self.code)
-"""

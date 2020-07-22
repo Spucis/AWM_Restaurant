@@ -1,6 +1,5 @@
 from django import forms
 from .models import Table, Plate, Menu, Order
-from django.contrib.auth.models import User
 
 # definisco il form direttamente dal modello del tavolo
 class MenuForm(forms.ModelForm):
@@ -17,14 +16,9 @@ class TableForm(forms.ModelForm):
         fields = '__all__'
 
 class OrderForm(forms.ModelForm):
-    table = forms.IntegerField()
-    date = forms.SplitDateTimeField()
-    password = forms.CharField()
-
     class Meta:
         model = Order
         fields = '__all__'
-        exclude = ['plates']
 
 class UpdateOrderForm(forms.ModelForm):
     class Meta:

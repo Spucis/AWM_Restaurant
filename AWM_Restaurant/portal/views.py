@@ -3,10 +3,14 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import Group, User
 
 @login_required
+@permission_required('table_mgmt.add_plate', raise_exception=True)
 def portal_welcome(request):
-    groups = request.user.groups.values_list('name', flat=True).get()
+    print("ASDA")
 
-    if (groups == "clients"):
+    groups = request.user.groups.values_list('name', flat=True).get()
+    print(request.user.groups.values_list('name', flat=True).get())
+    print(request.user.groups.values())
+    if (groups == "Clients"):
         items = {'addiction': 'Clients'}
     else:
         items = {'addiction': 'Other'}
