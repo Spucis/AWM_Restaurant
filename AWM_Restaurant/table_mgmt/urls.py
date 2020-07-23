@@ -25,9 +25,11 @@ urlpatterns = [
     path('tables/addp/', views.addPlate, name='addPlate'),
     path('tables/cmenu/', views.createMenu, name='createMenu'),
     path('clients/order/<int:code>/', views.updateOrder, name='order'),
+
     path('tables/create_order/', views.createOrder, name='createOrder'),
     # API path handler
     path('api/tables', views.listTables, name='listTables'),
     path('api/orders', views.listOrders, name='listOrders'),
 
+    path('tables/create_order/<int:table>/', views.createOrder, name='createOrder'),
 ]

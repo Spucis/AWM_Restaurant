@@ -1,5 +1,6 @@
 from django import forms
 from .models import Table, Plate, Menu, Order
+from django.contrib.auth.models import User
 
 # definisco il form direttamente dal modello del tavolo
 class MenuForm(forms.ModelForm):
@@ -16,6 +17,7 @@ class TableForm(forms.ModelForm):
         fields = '__all__'
 
 class OrderForm(forms.ModelForm):
+
     # vorrei disabilitare il tavolo ma non ci sto riuscendo TODO
     date = forms.SplitDateTimeField()
     password = forms.CharField(widget=forms.HiddenInput())
@@ -23,6 +25,7 @@ class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = '__all__'
+        exclude = ['plates']
 
 class UpdateOrderForm(forms.ModelForm):
     class Meta:
