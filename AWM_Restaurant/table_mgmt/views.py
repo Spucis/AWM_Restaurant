@@ -41,9 +41,12 @@ def tables(request):
     if request.user.has_perm('table_mgmt.add_order'):
         orders['can_add'] = True
     if request.user.has_perm('table_mgmt.view_order'):
-        orders['data'] = Order.objects.filter(client=request.user)
+        order_data = []
+        order_data.append(Order.objects.filter(client=request.user.id).get())
+        print(order_data)
+        orders['data'] = order_data
         orders['can_view'] = True
-    
+    print(orders)
     return render(request, 'table_mgmt/tables.html',{
         'title': 'Main page',
         'content': 'Menu, Tables, Orders, Plates',

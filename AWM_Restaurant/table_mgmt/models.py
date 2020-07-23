@@ -82,7 +82,7 @@ class Order(models.Model):
         unique_together = (("table", "date"))
 
     def __str__(self):
-        return 'Order {}'.format(self.code)
+        return 'Order {}'.format(self.id)
 """
 class Client(Person):
     name = models.CharField(max_length=50)      # F

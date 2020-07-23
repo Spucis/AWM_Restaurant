@@ -51,7 +51,7 @@ Plates:
 
 
 
-Order:
+Your orders:
 <ul>
 
     {% if orders.can_add %}
@@ -59,7 +59,7 @@ Order:
     {% endif %}
     {% if orders.can_view %}
         {% for order in orders.data %}
-            <li>'{{ order.name }}' availability: {{ order.days }}</li>
+            <li>Order {{ order.id }} for table {{ order.table }}, created on {{ order.date }}</li>
         {% endfor %}
     {% endif %}
 </ul>
