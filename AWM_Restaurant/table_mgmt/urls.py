@@ -26,4 +26,8 @@ urlpatterns = [
     path('tables/cmenu/', views.createMenu, name='createMenu'),
     path('clients/order/<int:code>/', views.updateOrder, name='order'),
     path('tables/create_order/', views.createOrder, name='createOrder'),
+    # API path handler
+    path('api/tables', views.listTables, name='listTables'),
+    path('api/orders', views.listOrders, name='listOrders'),
+    
 ]

@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from .models import Table, Plate, Menu
 from .forms import *
+from .serializers import *
 
 # Create your views here.
 def index(request):
@@ -108,3 +109,15 @@ def updateOrder(request, code):
             'form': updateorderForm,
             'content': 'Aggiorna Ordine',
         })
+
+def listTables(request):
+    table = Table(number=3)
+    serialized_table = TableSerializer(table)
+
+    return JsonResponse(serialized_table.data)
+
+def listOrders(request):
+    order = Order.objects.all().first()
+    serialized_order = OrderSerializer(order)
+
+    return JsonResponse(serialized_order.data)

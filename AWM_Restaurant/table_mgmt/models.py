@@ -58,7 +58,7 @@ class Plate(models.Model):
 
     description = models.CharField(max_length=100)
     price = models.FloatField()
-    available = models.BooleanField()
+    available = models.BooleanField(default=True)
     menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
     # Proprietà piatto (vegan etc...)
 
