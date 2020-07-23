@@ -9,10 +9,12 @@ Menu:
 <br />
 <ul>
     <a href={% url 'table_mgmt:createMenu' %}>Aggiungi un menù</a>
-    <br />
-    {% for m in menu %}
-        <li>{{ m.description }}</li>
-    {% endfor %}
+
+    {% if menu.can_view %}
+        {% for m in menu.data %}
+            <li>{{ m.description }}</li>
+        {% endfor %}
+    {% endif %}
 </ul>
 
 Tables:
@@ -28,14 +30,20 @@ Plates:
 <br />
 <ul>
     <a href={% url 'table_mgmt:addPlate' %}>Aggiungi un piatto</a>
-    {% for plate in plates %}
-        <li>'{{ plate.name }}' availability: {{ plate.days }}</li>
-    {% endfor %}
+
+    {% if plates.can_view %}
+        {% for plate in plates.data %}
+            <li>'{{ plate.name }}' availability: {{ plate.days|join:", " }}</li>
+        {% endfor %}
+    {% endif %}
 </ul>
 
 Order:
 <ul>
-    <a href={% url 'table_mgmt:createOrder' %}>Crea un nuovo ordine</a>
+    {% if orders.can_view %}
+        {% for order in orders.data %}
+            <li>{{ order.code }}, {{ order.table }} date: {{ order.date }}</li>
+        {% endfor %}
+    {% endif %}
 </ul>
 {% endblock %}
-

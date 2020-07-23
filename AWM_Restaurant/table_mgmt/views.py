@@ -18,8 +18,8 @@ def tables(request):
     menu = Menu.objects.all()
 
     return render(request, 'table_mgmt/tables.html',{
-        'title': 'Tables page',
-        'content': 'Tables and plates list',
+        'title': 'Main page',
+        'content': 'Menu, Tables, Orders, Plates',
         'menu': menu,
         'tables': tables,
         'plates': plates
@@ -29,10 +29,17 @@ def createMenu(request):
     if request.method == 'POST':
         menuForm = MenuForm(request.POST)
         if menuForm.is_valid():
-            menuForm.save()
-            return HttpResponseRedirect('/tables')
+            try:
+                menuForm.save()
+                return HttpResponseRedirect('/tables')
+            except ValidationError:
+                return render(request, 'table_mgmt/addMenu.html',{
+                'form': menuForm,
+                'title': 'Aggiungi tavolo',
+                'content': "Aggiungi tavolo",
+        })
         else:
-            return HttpResponseRedirect('/tables/add/')
+            return HttpResponseRedirect('/tables/cmenu/')
     else:
         menuForm = MenuForm()
         return render(request, 'table_mgmt/addMenu.html', {
@@ -86,7 +93,10 @@ def createOrder(request):
         else:
             return HttpResponseRedirect('/clients/order/')
     else:
-        orderForm = OrderForm()
+        table_obj = Table.objects.get(number=table)
+        psw = hash("{}{}".format(table, request.user.username))
+        initial = {'table': table_obj, 'client': request.user, 'password': psw}
+        orderForm = OrderForm(initial=initial)
         return render(request, 'table_mgmt/createOrder.html', {
             'form': orderForm,
             'content': 'Aggiorna Ordine',

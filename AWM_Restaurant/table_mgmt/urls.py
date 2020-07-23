@@ -29,5 +29,5 @@ urlpatterns = [
     # API path handler
     path('api/tables', views.listTables, name='listTables'),
     path('api/orders', views.listOrders, name='listOrders'),
-    
+
 ]

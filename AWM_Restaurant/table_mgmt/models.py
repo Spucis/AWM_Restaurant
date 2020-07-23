@@ -1,6 +1,6 @@
 from django.db import models
-from django.forms import PasswordInput
-#from django.contrib.auth.models import User
+from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 class Table(models.Model):
@@ -38,6 +38,13 @@ class Menu(models.Model):
 
     def __str__(self):
         return 'Menu {}'.format(self.code)
+
+    def save(self, *args, **kwargs):
+        if not self.pk and Menu.objects.exists():
+        # if you'll not check for self.pk
+        # then error will also raised in update of exists model
+            raise ValidationError('There is can be only one JuicerBaseSettings instance')
+        return super(Menu, self).save(*args, **kwargs)
 
     def plates(self):
         return Plate.object.all()
@@ -87,12 +94,16 @@ class Plate(models.Model):
         return 'Plate {}'.format(self.code)
 
 class Order(models.Model):
-    code = models.AutoField(primary_key=True)
-    t_code = models.ForeignKey(Table, on_delete=models.CASCADE)
-    waiter = models.ForeignKey(Waiter, on_delete=models.CASCADE)
-    # waiter = models.ForeignKey(User, on_delete=models.CASCADE) ??
-    time = models.DateTimeField()
+    #code = models.AutoField(primary_key=True)
+    table = models.ForeignKey(Table, on_delete=models.CASCADE)
+    date = models.DateTimeField()
+    client = models.ForeignKey(User, on_delete=models.CASCADE, related_name='client')
+    waiter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='waiter')
     plates = models.ManyToManyField(Plate)
+    password = models.TextField()
+
+    class Meta:
+        unique_together = (("table", "date"))
 
     def __str__(self):
         return 'Order {}'.format(self.code)

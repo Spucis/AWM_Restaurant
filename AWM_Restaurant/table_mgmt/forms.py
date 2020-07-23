@@ -16,6 +16,10 @@ class TableForm(forms.ModelForm):
         fields = '__all__'
 
 class OrderForm(forms.ModelForm):
+    # vorrei disabilitare il tavolo ma non ci sto riuscendo TODO
+    date = forms.SplitDateTimeField()
+    password = forms.CharField(widget=forms.HiddenInput())
+
     class Meta:
         model = Order
         fields = '__all__'
