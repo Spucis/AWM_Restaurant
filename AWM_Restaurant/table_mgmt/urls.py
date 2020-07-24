@@ -31,9 +31,7 @@ urlpatterns = [
     path('tables/create_order/', views.createOrder, name='createOrder'),
     path('tables/create_order/<int:table>/', views.createOrder, name='createOrder'),
 
-    # API path handler
+# API path handler
     path('api/tables', views.listTables, name='listTables'),
     path('api/orders', views.listOrders, name='listOrders'),
-
-
 ]

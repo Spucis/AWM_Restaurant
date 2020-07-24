@@ -265,8 +265,9 @@ def updateOrder(request, target_hash):
 def listTables(request):
     table = Table(number=3)
     serialized_table = TableSerializer(table)
-
-    return JsonResponse(serialized_table.data)
+    table_list = []
+    table_list.append(serialized_table.data)
+    return JsonResponse(table_list, safe=False)
 
 def listOrders(request):
     order = Order.objects.all().first()
