@@ -67,7 +67,7 @@ class Plate(models.Model):
         return days_availability
 
     def __str__(self):
-        return 'Plate {}'.format(self.code)
+        return '{}'.format(self.name)
 
 class Order(models.Model):
     #code = models.AutoField(primary_key=True)

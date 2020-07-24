@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import permission_required
+
 from .models import *
 from .forms import *
 from .serializers import *
@@ -35,18 +36,42 @@ def tables(request):
     if request.user.has_perm('table_mgmt.add_menu'):
         menu['can_add'] = True
     if request.user.has_perm('table_mgmt.view_menu'):
-        menu['data'] = Menu.objects.all()
+        try:
+            curr_menu = list(Menu.objects.all())
+        except Menu.DoesNotExists:
+            curr_menu = []
+
+        menu['data'] = curr_menu
         menu['can_view'] = True
 
     if request.user.has_perm('table_mgmt.add_order'):
         orders['can_add'] = True
     if request.user.has_perm('table_mgmt.view_order'):
         order_data = []
-        order_data.append(Order.objects.filter(client=request.user.id).get())
-        print(order_data)
+
+        if request.user.groups.filter(name='admin').exists() or \
+           request.user.groups.filter(name='waiters').exists():
+            print('[DEBUG] ADMIN OR WAITER')
+            try:
+                # list() on a QuerySet evaluates it
+                curr_order = list(Order.objects.all())
+            except Order.DoesNotExist:
+                curr_order = None
+            if curr_order is not None:
+                order_data.append(curr_order)
+            print(order_data)
+        else:
+            try:
+                curr_order = list(Order.objects.filter(client=request.user).all())
+            except Order.DoesNotExist:
+                curr_order = None
+            print(curr_order)
+            if curr_order is not None:
+                order_data.extend(curr_order)
+            print(order_data)
         orders['data'] = order_data
         orders['can_view'] = True
-    print(orders)
+
     return render(request, 'table_mgmt/tables.html',{
         'title': 'Main page',
         'content': 'Menu, Tables, Orders, Plates',
@@ -119,29 +144,110 @@ def client(request):
     })
 
 @permission_required('table_mgmt.change_order', raise_exception=True)
-def createOrder(request, table):
+def createOrder(request, table=None, order_id=None, target_hash=None):
     if request.method == 'POST':
-        orderForm = OrderForm(request.POST)
-        if orderForm.is_valid():
-            orderForm.save()
-            return HttpResponseRedirect('/tables')
+        # New order
+        if target_hash is None:
+            orderForm = OrderForm(request.POST)
+            if orderForm.is_valid():
+                orderForm.save()
+                return HttpResponseRedirect('/tables')
+            else:
+                print(orderForm.errors)
+                return HttpResponseRedirect('/tables/create_order/{}'.format(table))
         else:
-            print(orderForm.errors)
-            return HttpResponseRedirect('/tables/create_order/{}'.format(table))
-    else:
-        table_obj = Table.objects.get(number=table)
-        psw = hash("{}{}".format(table, request.user.username))
-        initial = {'table': table_obj, 'client': request.user, 'password': psw}
-        orderForm = OrderForm(initial=initial)
+            # UPDATE the order
+            order = Order.objects.filter(id=order_id).first()
+            if order:
+                print(request.POST['plates'])
+                if request.POST['plates'] and len(request.POST['plates']) > 0:
+                    for plate_id in request.POST['plates']:
+                        plate = Plate.objects.filter(code=plate_id).first()
+                        if plate:
+                            order.plates.add(plate)
+                        else:
+                            # plate with such id not found... WHY?
+                            print("[DEBUG] Requested plate {} not found".format(plate_id))
+                            return HttpResponseRedirect("/tables")
+                    order.save()
+                    # correct, updated the order then redirect to tables
+                    return HttpResponseRedirect("/tables")
+                else:
+                    # no plates to add
+                    return HttpResponseRedirect("/tables")
+            else:
+                # order not found
+                print("[DEBUG] Order not found")
+                return HttpResponseRedirect('/tables')
+    elif request.method == 'GET':
+        # se è stato specificato un tavolo,
+        # si imposta il form adeguatamente,
+        # altrimenti form unbound
+        if table is None:
+            orderForm = OrderForm()
+            method = 'POST'
+
+            # se non è stata passata una target_hash significa che
+            # non si è in fase di aggiornamento di un ordine
+            if target_hash is not None and order_id is not None:
+                target_hash = int(target_hash)
+
+                curr_order = Order.objects.filter(id=order_id).first()
+                print(curr_order)
+                if curr_order is None:
+                    # requested order not found
+                    print("[DEBUG] requested order not found")
+                    return HttpResponseRedirect("/tables")
+                """
+                print("[DEBUG] {}\n\t{}".format(hash("{}{}".format(int(curr_order.table.number), request.user.username)),
+                                              target_hash))
+                print("HASH: {}".format(hash("1cliente1")))
+                print("[DEBUG] table: {}".format(curr_order.table.number))
+                print("[DEBUG] username: {}".format(request.user.username))
+                if hash("{}{}".format(int(curr_order.table.number), request.user.username)) == target_hash:
+                    initial = {
+                            'table': curr_order.table,
+                            'client': curr_order.client,
+                            'password': curr_order.password,
+                            'date': curr_order.date,
+                            'waiter': curr_order.waiter,
+                            'plates': curr_order.plates
+                    }
+                    orderForm = OrderForm(initial=initial)
+                    method = 'PUT'
+                else:
+                    # hash don't match
+                    print("[DEBUG] hash don't match")
+                    return HttpResponseRedirect("/tables")
+                """
+                # tolto il controllo con l'hash, dà valori diversi per elementi uguali
+                # quando si riavvia il server... perché? TODO
+                print(list(curr_order.plates.all()))
+                initial = {
+                    'plates': [plate for plate in list(Plate.objects.all()) if plate in list(curr_order.plates.all())]
+                }
+                print(initial)
+                orderForm = UpdateOrderForm(initial=initial)
+                method = 'POST'
+        else:
+            table_obj = Table.objects.get(number=table)
+            psw = hash("{}{}".format(int(table), str(request.user.username)))
+            print(psw)
+            initial = {'table': table_obj, 'client': request.user, 'password': psw}
+            orderForm = OrderForm(initial=initial)
+            method = 'POST'
+
         return render(request, 'table_mgmt/createOrder.html', {
             'form': orderForm,
-            'content': 'Crea Ordine',
+            'content': 'Ordine',
+            'form_method': method
         })
 
-@permission_required('table_mgmt.change_order', raise_exception=True)
-def updateOrder(request, code):
 
-    print(code)
+@permission_required('table_mgmt.change_order', raise_exception=True)
+def updateOrder(request, target_hash):
+
+    print(target_hash)
     if request.method == 'POST':
         updateorderForm = UpdateOrderForm(request.POST)
         if updateorderForm.is_valid():
