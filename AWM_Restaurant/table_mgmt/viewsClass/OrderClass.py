@@ -14,6 +14,8 @@ class OrderManager(Manager):
     # getOrder GET
     @permission_required('table_mgmt.change_order', raise_exception=True)
     def do_GET(self):
+        request = self.request
+        """
         if self.order_id != None:
             curr_order = Order.objects.filter(id=self.order_id).first()
             if curr_order is None:
@@ -45,6 +47,28 @@ class OrderManager(Manager):
             'content': 'Ordine',
             'form_method': method
         })
+        """
+        orders = None
+        response = {
+            'orders': []
+        }
+
+        # check the permissions of the user
+        if not request.user.has_perm('table_mgmt.view_order'):
+            print("[DEBUG] Orders API: no permissions to view the orders")
+            return JsonResponse(response)
+
+        try:
+            orders = list(Order.objects.filter(client=request.user.id).all())
+        except Order.DoesNotExists:
+            # no orders
+            return JsonResponse(response)
+
+        for order in orders:
+            serialized_order = OrderSerializer(order)
+            response['orders'].append(serialized_order.data)
+
+        return JsonResponse(response)
 
     # createOrder POST
     @permission_required('table_mgmt.change_order', raise_exception=True)

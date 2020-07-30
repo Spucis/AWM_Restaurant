@@ -34,5 +34,6 @@ urlpatterns = [
     #path('tables/create_order/<int:table>/', views.OrderClass.OrderManager(), name='createOrder'),
     # API path handler
     path('restaurant/tables', views.TableClass.TableManager(), name='listTables'),
-    path('restaurant/orders', views.listOrders, name='listOrders'),
+    path('restaurant/orders', views.OrderClass.OrderManager(), name='listOrders'),
+    path('restaurant/plates', views.PlateClass.PlateManager(), name='listPlates'),
 ]
