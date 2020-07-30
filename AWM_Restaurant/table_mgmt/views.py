@@ -198,28 +198,7 @@ def createOrder(request, table=None, order_id=None, target_hash=None):
                     # requested order not found
                     print("[DEBUG] requested order not found")
                     return HttpResponseRedirect("/tables")
-                """
-                print("[DEBUG] {}\n\t{}".format(hash("{}{}".format(int(curr_order.table.number), request.user.username)),
-                                              target_hash))
-                print("HASH: {}".format(hash("1cliente1")))
-                print("[DEBUG] table: {}".format(curr_order.table.number))
-                print("[DEBUG] username: {}".format(request.user.username))
-                if hash("{}{}".format(int(curr_order.table.number), request.user.username)) == target_hash:
-                    initial = {
-                            'table': curr_order.table,
-                            'client': curr_order.client,
-                            'password': curr_order.password,
-                            'date': curr_order.date,
-                            'waiter': curr_order.waiter,
-                            'plates': curr_order.plates
-                    }
-                    orderForm = OrderForm(initial=initial)
-                    method = 'PUT'
-                else:
-                    # hash don't match
-                    print("[DEBUG] hash don't match")
-                    return HttpResponseRedirect("/tables")
-                """
+
                 # tolto il controllo con l'hash, dà valori diversi per elementi uguali
                 # quando si riavvia il server... perché? TODO
                 print(list(curr_order.plates.all()))
@@ -263,14 +242,42 @@ def updateOrder(request, target_hash):
         })
 
 def listTables(request):
-    table = Table(number=3)
-    serialized_table = TableSerializer(table)
-    table_list = []
-    table_list.append(serialized_table.data)
-    return JsonResponse(table_list, safe=False)
+    tables = None
+    response = {
+        'tables': []
+    }
+
+    try:
+        tables = list(Table.objects.all())
+    except Table.DoesNotExists:
+        # no tables
+        return JsonResponse(response)
+
+    for table in tables:
+        serialized_table = TableSerializer(table)
+        response['tables'].append(serialized_table.data)
+
+    return JsonResponse(response)
 
 def listOrders(request):
-    order = Order.objects.all().first()
-    serialized_order = OrderSerializer(order)
+    orders = None
+    response = {
+        'orders': []
+    }
 
-    return JsonResponse(serialized_order.data)
+    # check the permissions of the user
+    if not request.user.has_perm('table_mgmt.view_order'):
+        print("[DEBUG] Orders API: no permissions to view the orders")
+        return JsonResponse(response)
+
+    try:
+        orders = list(Order.objects.filter(client=request.user.id).all())
+    except Order.DoesNotExists:
+        # no orders
+        return JsonResponse(response)
+
+    for order in orders:
+        serialized_order = OrderSerializer(order)
+        response['orders'].append(serialized_order.data)
+
+    return JsonResponse(response)

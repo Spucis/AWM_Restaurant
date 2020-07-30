@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 
-class App extends Component {
+class OrderList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,7 +12,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch("tables")
+    fetch("orders")
       .then(response => {
         if (response.status > 400) {
           return this.setState(() => {
@@ -24,7 +24,7 @@ class App extends Component {
       .then(data => {
         this.setState(() => {
           return {
-            data: data['tables'],
+            data: data['orders'],
             loaded: true
           };
         });
@@ -34,12 +34,12 @@ class App extends Component {
   render() {
     return (
     <div>
-        Available tables:
+        Available orders:
       <ul>
-        {this.state.data.map(table => {
+        {this.state.data.map(order => {
           return (
-            <li key={table.number}>
-              Table {table.number}
+            <li key={order.id}>
+              Order {order.id}, Client {order.client}, Table {order.table}
             </li>
           );
         })}
@@ -49,7 +49,7 @@ class App extends Component {
   }
 }
 
-export default App;
+export default OrderList;
 
-const container = document.getElementById("app");
-render(<App />, container);
+const container = document.getElementById("orders");
+render(<OrderList />, container);
