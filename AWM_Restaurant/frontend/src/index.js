@@ -1,2 +1,2 @@
-import App from "./components/App";
+import TableList from "./components/TableList";
 import OrderList from "./components/OrderList";

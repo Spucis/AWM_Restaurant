@@ -20,18 +20,19 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('tables/', views.tables, name='tables'),
-    path('tables/add/', views.addTable, name='addTable'),
-    path('tables/addp/', views.addPlate, name='addPlate'),
+    path('restaurantAdmin/', views.ResClass.ResManager(), name='restaurant_admin'),
+    path('tables/l/', views.TableClass.TableManager(), name='tables'),
+    #path('tables/add/', views.addTable, name='addTable'),
+    path('plates/', views.PlateClass.PlateManager(), name='addPlate'),
     path('tables/cmenu/', views.createMenu, name='createMenu'),
-    path('tables/update_order/<int:order_id>/<str:target_hash>/', views.createOrder, name='updateOrder'),
+    path('orders/c/<int:table>/', views.OrderClass.OrderManager(), name='createOrder'),
+    path('orders/u/<int:order_id>/', views.OrderClass.OrderManager(), name='updateOrder'),
 
     # se non specificato il tavolo lascio che si possa creare un ordine
     # senza tavolo collegato in automatico (da inserire manuale dopo)
-    path('tables/create_order/', views.createOrder, name='createOrder'),
-    path('tables/create_order/<int:table>/', views.createOrder, name='createOrder'),
-
-# API path handler
-    path('api/tables', views.listTables, name='listTables'),
-    path('api/orders', views.listOrders, name='listOrders'),
+    #path('tables/create_order/', views.OrderClass.OrderManager(), name='createOrder'),
+    #path('tables/create_order/<int:table>/', views.OrderClass.OrderManager(), name='createOrder'),
+    # API path handler
+    path('restaurant/tables', views.TableClass.TableManager(), name='listTables'),
+    path('restaurant/orders', views.listOrders, name='listOrders'),
 ]

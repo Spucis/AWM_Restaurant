@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 
-class App extends Component {
+class TableList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -49,7 +49,7 @@ class App extends Component {
   }
 }
 
-export default App;
+export default TableList;
 
-const container = document.getElementById("app");
-render(<App />, container);
+const container = document.getElementById("tables");
+render(<TableList />, container);

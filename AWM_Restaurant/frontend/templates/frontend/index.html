@@ -6,7 +6,13 @@
   <title>Django REST with React</title>
 </head>
 <body>
-<div id="app">
+
+Tables:
+<br />
+    {% if tables.can_add %}
+        <a href={% url 'table_mgmt:tables' %}>Aggiungi un tavolo</a>
+    {% endif %}
+<div id="tables">
     <!-- React will load here -->
 </div>
 <div id="orders">

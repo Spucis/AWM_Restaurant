@@ -25,12 +25,13 @@ Tables:
 <br />
 <ul>
     {% if tables.can_add %}
-    <a href={% url 'table_mgmt:addTable' %}>Aggiungi un tavolo</a>
+    <a href={% url 'table_mgmt:tables' %}>Aggiungi un tavolo</a>
     {% endif %}
 
     {% if tables.can_view %}
         {% for table in tables.data %}
-    <li><a href={% url 'table_mgmt:createOrder' table=table.number %} title="Click to create a new order for this table" >Table {{ table.number }}</a></li>
+        <!-- Modify Table -->
+        <li><a href={% url 'table_mgmt:createOrder' table=table.number %} title="Click to create a new order for this table" >Table {{ table.number }}</a></li>
         {% endfor %}
     {% endif %}
 </ul>
@@ -53,12 +54,9 @@ Plates:
 
 Your orders:
 <ul>
-    {% if orders.can_add %}
-    <a href={% url 'table_mgmt:createOrder' %}>Crea un nuovo ordine</a>
-    {% endif %}
     {% if orders.can_view %}
         {% for order in orders.data %}
-    <li><a href={% url 'table_mgmt:updateOrder' order_id=order.id target_hash=order.password %} title="Click to modify the order">Order {{ order.id }} </a> for table {{ order.table }}, created on {{ order.date }}<br />
+    <li><a href={% url 'table_mgmt:updateOrder' order_id=order.id %} title="Click to modify the order">Order {{ order.id }} </a> for table {{ order.table }}, created on {{ order.date }}<br />
         <ul>
             {% for plate in order.plates.all %}
                 <li>{{plate.name}}</li>

@@ -23,5 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('logout/', views.logout_view, name='logout_view'),
     path('', include('django.contrib.auth.urls')),
-    path('api/', include('frontend.urls')),
+    path('restaurant/', include(('frontend.urls', 'frontend'), namespace='frontend')),
 ]
