@@ -1,12 +1,11 @@
 from django.shortcuts import render
-
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed, JsonResponse
 from django.contrib.auth.decorators import permission_required
 
 from .models import *
 from .forms import *
 from .serializers import *
-
+from .viewsClass import OrderClass, TableClass, ResClass, PlateClass
 # Create your views here.
 
 def index(request):
@@ -72,7 +71,7 @@ def tables(request):
         orders['data'] = order_data
         orders['can_view'] = True
 
-    return render(request, 'table_mgmt/tables.html',{
+    return render(request, 'table_mgmt/restaurant.html',{
         'title': 'Main page',
         'content': 'Menu, Tables, Orders, Plates',
         'menu': menu,
@@ -142,7 +141,7 @@ def client(request):
         'title': 'Client page',
         'plates': plates
     })
-
+"""
 @permission_required('table_mgmt.change_order', raise_exception=True)
 def createOrder(request, table=None, order_id=None, target_hash=None):
     if request.method == 'POST':
@@ -199,6 +198,7 @@ def createOrder(request, table=None, order_id=None, target_hash=None):
                     print("[DEBUG] requested order not found")
                     return HttpResponseRedirect("/tables")
                 """
+"""
                 print("[DEBUG] {}\n\t{}".format(hash("{}{}".format(int(curr_order.table.number), request.user.username)),
                                               target_hash))
                 print("HASH: {}".format(hash("1cliente1")))
@@ -219,7 +219,6 @@ def createOrder(request, table=None, order_id=None, target_hash=None):
                     # hash don't match
                     print("[DEBUG] hash don't match")
                     return HttpResponseRedirect("/tables")
-                """
                 # tolto il controllo con l'hash, dà valori diversi per elementi uguali
                 # quando si riavvia il server... perché? TODO
                 print(list(curr_order.plates.all()))
@@ -242,25 +241,7 @@ def createOrder(request, table=None, order_id=None, target_hash=None):
             'content': 'Ordine',
             'form_method': method
         })
-
-
-@permission_required('table_mgmt.change_order', raise_exception=True)
-def updateOrder(request, target_hash):
-
-    print(target_hash)
-    if request.method == 'POST':
-        updateorderForm = UpdateOrderForm(request.POST)
-        if updateorderForm.is_valid():
-            updateorderForm.save()
-            return HttpResponseRedirect('/clients')
-        else:
-            return HttpResponseRedirect('/clients/order/')
-    else:
-        updateorderForm = UpdateOrderForm()
-        return render(request, 'table_mgmt/updateOrder.html', {
-            'form': updateorderForm,
-            'content': 'Aggiorna Ordine',
-        })
+"""
 
 def listTables(request):
     table = Table(number=3)
