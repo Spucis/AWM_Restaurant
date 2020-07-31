@@ -66,8 +66,21 @@ class OrderManager(Manager):
 
         for order in orders:
             serialized_order = OrderSerializer(order)
+            """ Serializer has been modified and it returns the name of clients and waiters and plates
+            instead of their codes"""
+            """
+            curr_client = User.objects.filter(id=order.client.id).first()
+            ser_order = serialized_order.data.copy()
+            print(curr_client)
+            if curr_client:
+                ser_order['client_username'] = curr_client.username
+                print(ser_order)
+            else:
+                ser_order['client_username'] = ""
+            response['orders'].append(ser_order)
+            """
             response['orders'].append(serialized_order.data)
-
+        print(response['orders'])
         return JsonResponse(response)
 
     # createOrder POST

@@ -36,7 +36,7 @@ class PlateList extends Component {
     this.state.data.map(plate => {
           return (
           <>
-            <h1 key={plate.id}><b>{plate.name}</b> <span className="w3-right w3-tag w3-dark-grey w3-round">${plate.price}</span></h1>
+            <h1 ><b>{plate.name}</b> <span className="w3-right w3-tag w3-dark-grey w3-round">${plate.price}</span></h1>
             <p className="w3-text-grey">{plate.description}</p>
             <hr></hr>
           </>

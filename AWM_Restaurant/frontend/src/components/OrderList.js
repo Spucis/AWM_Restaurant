@@ -39,7 +39,16 @@ class OrderList extends Component {
         {this.state.data.map(order => {
           return (
             <li key={order.id}>
-              Order {order.id}, Client {order.client}, Table {order.table}
+              Order {order.id}, {order.client.username}, Table {order.table}:
+              <ul>
+              {order.plates.map(plate => {
+                return (
+                <li key={plate.code}>
+                {plate.name} --- ${plate.price}
+                </li>
+                );
+              })}
+              </ul>
             </li>
           );
         })}
