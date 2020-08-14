@@ -1,3 +1,4 @@
 */__pycache__/
 *.pyc
 AWM_Restaurant/AWM_Restaurant/settings.py
+AWM_Restaurant/mobile/MobileRestaurant/node_modules/

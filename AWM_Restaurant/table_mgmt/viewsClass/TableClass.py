@@ -10,7 +10,7 @@ class TableManager(Manager):
     #@permission_required('table_mgmt.add_table', raise_exception=True)
     def do_GET(self):
         if self.table != None:
-            if self.request.user.has_perm('table_mgmt.add_table'):
+            if self.request.user and self.request.user.has_perm('table_mgmt.add_table'):
                 tableForm = TableForm()
                 return render(self.request, 'table_mgmt/addTable.html', {
                     'form': tableForm,
@@ -20,7 +20,7 @@ class TableManager(Manager):
             else:
                 raise PermissionDenied
         # list table
-        elif self.request.user.has_perm('table_mgmt.view_table'):
+        else: # self.request.user.has_perm('table_mgmt.view_table'):
             tables = None
             response = {
                 'tables': []

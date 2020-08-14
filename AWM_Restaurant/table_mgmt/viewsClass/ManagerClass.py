@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed, JsonResponse
 from django.contrib.auth.decorators import permission_required, user_passes_test
+from django.contrib.auth.models import AnonymousUser
 from django.core.exceptions import PermissionDenied
 from ..models import *
 from ..forms import *
@@ -17,7 +18,13 @@ class Manager:
     def call_check(self, request):
 
         # Look up the user and throw a 404 if it doesn't exist
-        self.user = get_object_or_404(User, username=request.user.username)
+        # TOLTO UN ATTIMO PER CONTOLLARE ANCHE SENZA UTENTE
+        #self.user = get_object_or_404(User, username=request.user.username)
+
+        #edit: inserito il controllo; se l'utente non c'è ne creo uno anonimo.
+        self.user = User.objects.filter(username=request.user.username).first()
+        if not self.user:
+            self.user = AnonymousUser()
 
         # Try to locate a handler method.
         try:
