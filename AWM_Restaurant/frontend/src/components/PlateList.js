@@ -47,8 +47,6 @@ class PlateList extends Component {
   }
 
   render() {
-
-
     return (
     this.state.data.map(plate => {
           return (

@@ -23,12 +23,7 @@ class PlateManager(Manager):
         response = {
             'plates': []
         }
-        # check the permissions of the user
-        """
-        if not request.user.has_perm('table_mgmt.view_plate'):
-            print("[DEBUG] PLATES API: no permissions to view the plates")
-            return JsonResponse(response)
-        """
+
         try:
             #plates = list(Plate.objects.filter(client=request.user.id).all())
             plates = Plate.objects.all()
@@ -40,6 +35,7 @@ class PlateManager(Manager):
             serialized_plate = PlateSerializer(plate)
             response['plates'].append(serialized_plate.data)
 
+        # Come mai quegli Header?
         response = JsonResponse(response)
         response["Access-Control-Allow-Origin"] = "*"
         response["Access-Control-Allow-Methods"] = "GET, OPTIONS"

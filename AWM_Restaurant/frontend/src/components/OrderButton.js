@@ -10,27 +10,6 @@ class OrderButton extends Component {
     };
   }
 
-  componentDidMount() {
-    /*fetch("orders")
-      .then(response => {
-        if (response.status > 400) {
-          return this.setState(() => {
-            return { placeholder: "Something went wrong!" };
-          });
-        }
-        return response.json();
-      })
-      .then(data => {
-        this.setState(() => {
-          return {
-            data: data['orders'],
-            loaded: true
-          };
-        });
-      });*/
-  }
-
-
    makeOrder(){
         var plates = document.getElementsByName("selected_plate");
         //console.log(plates);

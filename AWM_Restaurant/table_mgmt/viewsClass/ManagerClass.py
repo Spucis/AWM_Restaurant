@@ -1,7 +1,9 @@
+import json
+
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed, JsonResponse, QueryDict
 from django.contrib.auth.decorators import permission_required, user_passes_test
-from django.contrib.auth.models import AnonymousUser
+from django.contrib.auth.models import User, Group, AnonymousUser
 from django.core.exceptions import PermissionDenied
 from ..models import *
 from ..forms import *
@@ -16,7 +18,6 @@ def check_group(user):
 class Manager:
 
     def call_check(self, request):
-
         # Look up the user and throw a 404 if it doesn't exist
         # TOLTO UN ATTIMO PER CONTOLLARE ANCHE SENZA UTENTE
         #self.user = get_object_or_404(User, username=request.user.username)

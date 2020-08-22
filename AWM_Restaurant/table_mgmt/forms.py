@@ -19,13 +19,13 @@ class TableForm(forms.ModelForm):
 class OrderForm(forms.ModelForm):
 
     # vorrei disabilitare il tavolo ma non ci sto riuscendo TODO
-    date = forms.SplitDateTimeField()
-    password = forms.CharField(widget=forms.HiddenInput())
+    # date = forms.SplitDateTimeField()
+    # password = forms.CharField(widget=forms.HiddenInput())
 
     class Meta:
         model = Order
         fields = '__all__'
-        exclude = ['plates']
+        exclude = ['plates', 'password']
 
 class UpdateOrderForm(forms.ModelForm):
     class Meta:

@@ -48,13 +48,6 @@ class PlateAdmin(admin.ModelAdmin):
     ]
     list_display = ('name', 'code', 'price')
 
-"""
-admin.site.register(Person)
-admin.site.register(Admin)
-admin.site.register(Client)
-admin.site.register(Client_Auth)
-admin.site.register(Waiter)
-"""
 admin.site.register(Table)
 admin.site.register(Order)
 admin.site.register(Menu)

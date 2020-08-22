@@ -76,57 +76,11 @@ class Order(models.Model):
     client = models.ForeignKey(User, on_delete=models.CASCADE, related_name='client')
     waiter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='waiter')
     plates = models.ManyToManyField(Plate)
-    password = models.TextField()
+    password = models.TextField()   # What purpose?
 
     class Meta:
         unique_together = (("table", "date"))
 
     def __str__(self):
         return 'Order {}'.format(self.id)
-"""
-class Client(Person):
-    name = models.CharField(max_length=50)      # F
-    surname = models.CharField(max_length=50)   # F
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return 'Client {}'.format(self.code)
-
-class Client_Auth(Client):
-    e_mail = models.EmailField(max_length=254)
-
-    class Meta:
-        verbose_name_plural = 'Clients_Auth'
-
-    def __str__(self):
-        return 'Client_Auth {}'.format(self.code)
-"""
-
-
-"""
-class Prenotation(models.Model):
-    table = models.ForeignKey(Table, on_delete=models.CASCADE)
-
-class Person(models.Model):
-    code = models.AutoField(primary_key=True)
-
-    class Meta:
-        verbose_name_plural = 'People'
-
-    def __str__(self):
-        return 'Person {}'.format(self.code)
-
-class Waiter(Person):
-    # Lista ordini con Query
-    name = models.CharField(max_length=50)      # O
-    surname = models.CharField(max_length=50)   # O
-
-    def __str__(self):
-        return 'Waiter {}'.format(self.code)
-
-class Admin(Person):
-    psw = models.CharField(max_length=32)
-
-    def __str__(self):
-        return 'Admin {}'.format(self.code)
-"""

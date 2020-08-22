@@ -7,37 +7,21 @@ class TableManager(Manager):
         self.table = table
         return self.call_check(self.request)
 
-    #@permission_required('table_mgmt.add_table', raise_exception=True)
+    # ADMIN ONLY
+    # GET that return form to add table
     def do_GET(self):
-        if self.table != None:
-            if self.request.user and self.request.user.has_perm('table_mgmt.add_table'):
-                tableForm = TableForm()
-                return render(self.request, 'table_mgmt/addTable.html', {
-                    'form': tableForm,
-                    'title': 'Aggiungi tavolo',
-                    'content': "Aggiungi tavolo",
-                })
-            else:
-                raise PermissionDenied
-        # list table
-        else: # self.request.user.has_perm('table_mgmt.view_table'):
-            tables = None
-            response = {
-                'tables': []
-            }
+        if self.request.user and self.request.user.has_perm('table_mgmt.add_table'):
+            tableForm = TableForm()
+            return render(self.request, 'table_mgmt/addTable.html', {
+                'form': tableForm,
+                'title': 'Aggiungi tavolo',
+                'content': "Aggiungi tavolo",
+            })
+        else:
+            raise PermissionDenied
 
-            try:
-                tables = list(Table.objects.all())
-            except Table.DoesNotExists:
-                # no tables
-                return JsonResponse(response)
-
-            for table in tables:
-                serialized_table = TableSerializer(table)
-                response['tables'].append(serialized_table.data)
-
-            return JsonResponse(response)
-
+    # ADMIN ONLY
+    # POST that add a new table
     @permission_required('table_mgmt.add_table', raise_exception=True)
     def do_POST(self):
         tableForm = TableForm(self.request.POST)
@@ -46,10 +30,3 @@ class TableManager(Manager):
             return HttpResponseRedirect('/tables')
         else:
             return HttpResponseRedirect('/tables/add/')
-
-    @permission_required('table_mgmt.change_table', raise_exception=True)
-    def do_PUT(self, request):
-        pass
-
-    def do_DELETE(self, request):
-        pass
