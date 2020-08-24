@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 import PlatesList from "./PlateList";
-import OrderButton from "./OrderButton";
+import UpdateOrderButton from "./UpdateOrderButton";
 
 class Plates extends Component {
   constructor(props) {
@@ -18,7 +18,7 @@ class Plates extends Component {
             <PlatesList
              id="PlatessList"
             />
-            <OrderButton/>
+            <UpdateOrderButton/>
         </div>
     );
   }

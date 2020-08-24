@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 
-class OrderButton extends Component {
+class UpdateOrderButton extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,7 +12,7 @@ class OrderButton extends Component {
 
    makeOrder(){
         var plates = document.getElementsByName("selected_plate");
-        var plate_codes = [];
+        var plate_obj = {};
         var plate_list = [];
         
         for (var i=0;i< plates.length;i++){
@@ -25,10 +25,9 @@ class OrderButton extends Component {
                              " - ",
                              plates[i].parentElement.firstElementChild.innerText)
                             );
-            plate_codes.push(plate_code);
         }
 
-        this.setState({data: plate_codes});
+        this.setState({data: plate_obj});
         document.getElementById('order_plate_list').innerText = plate_list.join(", ");
    }
 
@@ -45,4 +44,4 @@ class OrderButton extends Component {
   }
 }
 
-export default OrderButton;
+export default UpdateOrderButton;

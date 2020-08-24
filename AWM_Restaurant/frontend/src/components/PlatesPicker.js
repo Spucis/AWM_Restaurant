@@ -24,7 +24,7 @@ class PlatesPicker extends Component {
             value={this.state.value}
             min={1}
             max={30}
-            size={ 1 }
+            size={1}
             />
         )
     }
