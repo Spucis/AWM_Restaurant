@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import OrderButton from "../../frontend/src/components/OrderButton";
 import {FlatList, ActivityIndicator, Text, View, } from 'react-native';
 
 class PlateList extends Component {
@@ -22,7 +23,7 @@ class PlateList extends Component {
         'Content-Type': 'application/json'
       }
     });
-    api.get("http://localhost:8000/restaurant/plates",{
+    api.get("http://192.168.1.127:8000/restaurant/plates",{
     mode: "cors",
     raw: true,
     })
@@ -50,6 +51,7 @@ class PlateList extends Component {
             )}
           />
         )}
+        <OrderButton/>
       </View>
     );
   }

@@ -3,13 +3,11 @@ from .ManagerClass import *
 class OrderManager(Manager):
 
     def __call__(self, request, order_id=None, table=None, target_hash=None):
-        #print("ORDER_ID: {}".format(table))
         self.request = request
         self.table = table
         self.order_id = order_id
         self.target_hash = target_hash
         return self.call_check(self.request)
-
 
     # GET that return a single order actual state
     @permission_required('table_mgmt.change_order', raise_exception=True)
@@ -19,27 +17,36 @@ class OrderManager(Manager):
     # POST that create a new Order
     @permission_required('table_mgmt.change_order', raise_exception=True)
     def do_POST(self):
-        # New order
-        dict_body = json.loads(self.request.body)   # Rerieve jsonified data
+        # Retrieve jsonified data
+        dict_body = json.loads(self.request.body)
         dict_body['client'] = self.request.user.id  # Add client id -> Maybe there is a better way?
-        print("username: {}, id: {}".format(self.request.user.username, self.request.user.id))
+
+        # Parse data in a structure acceptable from OrderForm
         q_body = QueryDict('', mutable=True)
         q_body.update(dict_body)
-        orderForm = OrderForm(q_body)               # Test sulla data, sempre maggiore di oggi
+
+        orderForm = OrderForm(q_body)               # !!!! -Test sulla data, sempre maggiore di oggi- !!!!
         if orderForm.is_valid():
             orderForm.save()
-            return HttpResponseRedirect('/restaurant')
+            code = hash("{}{}".format(dict_body['client'], dict_body['date']))
+            resp = {
+                'resp': "The prenotation is signed. You order is the number {}".format(code)
+            }
+            return JsonResponse(resp)
         else:
-            # Gestione errori, tavolo non selezionato etc
+            # Catch errors
             print("The Order form wasn't correct")
-            print(q_body)
             print(orderForm.errors)
-            return HttpResponseRedirect('/restaurant')
+            return HttpResponseRedirect('/restaurant/')
 
-    # update an Order
+    # PUT that update an Order
     @permission_required('table_mgmt.change_order', raise_exception=True)
     def do_PUT(self, request, order_id=None):
         order = Order.objects.filter(id=order_id).first()
+
+
+
+        """
         if order:
             print(request.PUT['plates'])
             if request.PUT['plates'] and len(request.PUT['plates']) > 0:
@@ -61,3 +68,4 @@ class OrderManager(Manager):
             # order not found
             print("[DEBUG] Order not found")
             return HttpResponseRedirect('/restaurant')
+        """

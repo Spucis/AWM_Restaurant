@@ -1,5 +1,4 @@
 import json
-
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed, JsonResponse, QueryDict
 from django.contrib.auth.decorators import permission_required, user_passes_test

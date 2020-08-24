@@ -70,17 +70,16 @@ class Plate(models.Model):
         return '{}'.format(self.name)
 
 class Order(models.Model):
-    #code = models.AutoField(primary_key=True)
     table = models.ForeignKey(Table, on_delete=models.CASCADE)
     date = models.DateTimeField()
     client = models.ForeignKey(User, on_delete=models.CASCADE, related_name='client')
     waiter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='waiter')
+    seats = models.IntegerField()
     plates = models.ManyToManyField(Plate)
-    password = models.TextField()   # What purpose?
+    password = models.TextField()   # What purpose? -> codice per far entrare altri clienti
 
     class Meta:
         unique_together = (("table", "date"))
 
     def __str__(self):
         return 'Order {}'.format(self.id)
-

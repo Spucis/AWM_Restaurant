@@ -34,8 +34,6 @@ class WaitersManager(Manager):
             serialized_waiters = WaiterSerializer(waiter)
             response['waiters'].append(serialized_waiters.data)
 
-        print("Response: {}".format(response))
-
         return JsonResponse(response)
 
 

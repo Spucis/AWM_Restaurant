@@ -6,7 +6,6 @@ from .models import *
 from .forms import *
 from .serializers import *
 from .viewsClass import OrderClass, OrdersClass, TableClass, TablesClass, ResClass, PlateClass, WaitersClass
-# Create your views here.
 
 def index(request):
     return render(request, 'table_mgmt/index.html', {
