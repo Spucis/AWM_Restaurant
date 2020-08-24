@@ -16,7 +16,7 @@ class Plates extends Component {
     return (
         <div>
             <PlatesList
-             id="PlatessList"
+             id="PlatesList"
             />
             <UpdateOrderButton/>
         </div>

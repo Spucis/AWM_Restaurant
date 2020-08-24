@@ -43,7 +43,7 @@ export function ObjSelection(id, name){
     }
 }
 
-export function NumberPickerChange(new_value, np_name) {
-        console.log("EHI:"+new_value)
-        var numberpicker = document.getElementsByName(np_name);
+export function ChangeObjValue(id, new_value) {
+        var selected_obj = document.getElementById(id);
+        selected_obj.setAttribute("value", new_value)
 }
