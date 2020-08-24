@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
-import { changeSelectedObj } from './Utils.js';
 import Calendar from "./Calendar";
 import PrenTableButton from "./PrenTableButton";
 import WaitersList from "./WaitersList";
+import SeatsPicker from "./SeatsPicker"
+import { changeSelectedObj } from './Utils.js';
+import 'react-datepicker/dist/react-datepicker.css'
 
 class TableList extends Component {
   constructor(props) {
@@ -50,7 +51,7 @@ class TableList extends Component {
               className="far fa-check-circle w3-margin-left"
               name="unselected_table"
               style={{cursor: "pointer"}}
-              onClick={changeSelectedObj.bind(this, "table_"+table.number+"_check", "selected_table")}>
+              onClick={changeSelectedObj.bind(this, "table_"+table.number+"_check", "table")}>
               </i>
             </li>
           );
@@ -59,10 +60,17 @@ class TableList extends Component {
             <Calendar/>
         </div>
         <div>
+            Seats:<SeatsPicker/>
+        </div>
+        <div>
             <WaitersList />
         </div>
         <div>
             <PrenTableButton />
+        </div>
+        <div
+            id="jsonResp"
+            style={{color: "green"}}>
         </div>
       </ul>
     </div>

@@ -12,23 +12,19 @@ class OrderButton extends Component {
 
    makeOrder(){
         var plates = document.getElementsByName("selected_plate");
-        //console.log(plates);
         var plate_codes = [];
         var plate_list = [];
         
         for (var i=0;i< plates.length;i++){
-            var toCutStart = "plate_".length; //find the length of the start of the string
+            var toCutStart = "plate_".length;
             var toCutEnd = "_check".length;
-            //console.log(plates[i]);
-            var plate_code = plates[i].parentElement.id.slice(toCutStart);//, toCutEnd); //retrieve the id (something like "plate_0") and cut the
-                                                          //initial part
-            // solo per provare la funzionalità..
-            // i codici sono dentro plate_codes, in basso.
+            var plate_code = plates[i].parentElement.id.slice(toCutStart);
+
             plate_list.push("".
                              concat(plate_code.toString(),
                              " - ",
-                             plates[i].parentElement.firstElementChild.innerText));
-
+                             plates[i].parentElement.firstElementChild.innerText)
+                            );
             plate_codes.push(plate_code);
         }
 
@@ -50,6 +46,3 @@ class OrderButton extends Component {
 }
 
 export default OrderButton;
-
-const container = document.getElementById("orderButton");
-render(<OrderButton />, container);

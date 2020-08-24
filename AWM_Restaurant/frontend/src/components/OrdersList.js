@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 
-class OrderList extends Component {
+class OrdersList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,7 +23,7 @@ class OrderList extends Component {
       })
       .then(data => {
         this.setState(() => {
-          return {
+           return {
             data: data['orders'],
             loaded: true
           };
@@ -34,12 +34,23 @@ class OrderList extends Component {
   render() {
     return (
     <div>
+        <ul>
+            <button
+                id="refreshOrders"
+                onClick={this.componentDidMount.bind(this)}
+                className="w3-button w3-center"
+            >
+            Refresh Your Orders!
+            </button>
+        </ul>
         Available orders:
-      <ul>
+        <ul>
         {this.state.data.map(order => {
           return (
             <li key={order.id}>
-              Order {order.id}, {order.client.username}, Table {order.table}:
+              Order {order.id}, {order.client.username}
+              <ul>
+              Table {order.table}, Waiter: {order.waiter.username}:
               <ul>
               {order.plates.map(plate => {
                 return (
@@ -49,16 +60,14 @@ class OrderList extends Component {
                 );
               })}
               </ul>
+              </ul>
             </li>
           );
         })}
-      </ul>
+        </ul>
     </div>
     );
   }
 }
 
-export default OrderList;
-
-const container = document.getElementById("orders");
-render(<OrderList />, container);
+export default OrdersList;

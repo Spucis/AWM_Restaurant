@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
+import NumericInput from 'react-numeric-input';
+import { ObjSelection } from './Utils.js';
+import { NumberPickerChange } from './Utils.js';
 
 class PlateList extends Component {
   constructor(props) {
@@ -31,21 +34,6 @@ class PlateList extends Component {
       });
   }
 
-  changePlateSelection(id){
-    var x = document.getElementById(id);
-    if (x.className.indexOf("far") == -1) { //far non trovato; far=non selezionato; fas=selezionato
-      x.className = x.className.replace("fas", "far");
-      x.style = "cursor: pointer;";
-      x.setAttribute("name","unselected_plate");
-      x.setAttribute("title", "Click to select this plate for your order.");
-    } else {
-      x.className = x.className.replace("far", "fas");
-      x.style = "cursor: pointer; color: green;";
-      x.setAttribute("name","selected_plate");
-      x.setAttribute("title", "Click to delete this plate from your order.")
-    }
-  }
-
   render() {
     return (
     this.state.data.map(plate => {
@@ -55,11 +43,22 @@ class PlateList extends Component {
             <i  id={"plate_"+plate.code+"_check"}
                 name="unselected_plate"
                 className="far fa-check-circle w3-margin-left"
-                onClick={this.changePlateSelection.bind(this,"plate_"+plate.code+"_check")}
+                onClick={ObjSelection.bind(this,"plate_"+plate.code+"_check", "plate")}
                 title="Click to select this plate for your order."
                 style={{cursor: "pointer"}}
+                value={1}
                 >
             </i>
+                <NumericInput
+                    mobile="auto"
+                    className="formControl"
+                    id={"np_"+plate.code+"_check"}
+                    value={1}
+                    onChange={NumberPickerChange.bind(this, "np_"+plate.code+"_check")}
+                    min={1}
+                    max={30}
+                    size={ 1 }
+                />
             <span className="w3-right w3-tag w3-dark-grey w3-round">${plate.price}</span></h1>
             <p className="w3-text-grey">{plate.description}</p>
             <hr></hr>
@@ -71,6 +70,3 @@ class PlateList extends Component {
 }
 
 export default PlateList;
-
-const container = document.getElementById("customPlates");
-render(<PlateList />, container);

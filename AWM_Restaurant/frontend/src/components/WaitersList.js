@@ -44,7 +44,7 @@ class WaitersList extends Component {
               className="far fa-check-circle w3-margin-left"
               name="unselected_waiter"
               style={{cursor: "pointer"}}
-              onClick={changeSelectedObj.bind(this, "waiter_"+waiters.id, "selected_waiter")}>
+              onClick={changeSelectedObj.bind(this, "waiter_"+waiters.id, "waiter")}>
               </i>
             </li>
           );

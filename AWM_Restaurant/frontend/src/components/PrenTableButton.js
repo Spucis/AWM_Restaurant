@@ -16,6 +16,7 @@ class PrenTableButton extends Component {
         var table = document.getElementsByName("selected_table");
         var waiter = document.getElementsByName("selected_waiter");
         var calendar = document.getElementById("DatePicker");
+        var seats = document.getElementById("SeatsPicker");
 
         // Retrieve Data id to identify Data in the DB
         var table_code = table[0].parentElement.id.slice("table_".length);
@@ -23,7 +24,7 @@ class PrenTableButton extends Component {
 
         const csrftoken = Cookies.get('csrftoken');
 
-        var obj = { table : table_code, waiter : waiter_code, date : calendar.value };
+        var obj = { table : table_code, waiter : waiter_code, date : calendar.value, seats: seats.value};
 		var json_obj = JSON.stringify(obj);
 
         var xhr = new XMLHttpRequest();
@@ -31,7 +32,10 @@ class PrenTableButton extends Component {
 		{
 			if (xhr.readyState === 4)
 			{
-				console.log("New Order create")
+			    var resp = JSON.parse(xhr.response);
+				const container = document.getElementById("jsonResp");
+                render(resp['resp'], container);
+
 			}
 		}
 
