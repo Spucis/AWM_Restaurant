@@ -10,11 +10,47 @@ class UpdateOrderButton extends Component {
     };
   }
 
+   sendPUT(obj, plate_list)
+   {
+        const csrftoken = Cookies.get('csrftoken');
+		var json_obj = JSON.stringify(obj);
+
+        var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function()
+		{
+			if (xhr.readyState === 4)
+			{
+			    var resp = JSON.parse(xhr.response);
+			    if(1)
+			    {
+			        document.getElementById('order_plate_list').innerText = plate_list.join(", ");
+			    }
+			    else
+			    {
+                    const container = document.getElementById("inbtnjsonResp");
+                    var info = "The number entered does not corrispond to any Order"
+                    render(info, container);
+			    }
+			}
+		}
+
+		xhr.open("PUT", "/restaurant/order", true);
+		xhr.setRequestHeader("Content-type", "application/json");
+		xhr.setRequestHeader("X-CSRFToken", csrftoken)
+		xhr.send(json_obj);
+   }
+
    makeOrder(){
-        var plates = document.getElementsByName("selected_plate");
+
+        {/* plate_obj: { "plate_code": "num_of_portions" }*/}
+        var send_obj = {};
         var plate_obj = {};
         var plate_list = [];
-        
+
+        var plates = document.getElementsByName("selected_plate");
+        var numInputOrder = document.getElementById("numInputOrder");
+	    send_obj['order_id'] = numInputOrder.getAttribute("value");
+
         for (var i=0;i< plates.length;i++){
             var toCutStart = "plate_".length;
             var toCutEnd = "_check".length;
@@ -25,10 +61,15 @@ class UpdateOrderButton extends Component {
                              " - ",
                              plates[i].parentElement.firstElementChild.innerText)
                             );
+
+            plate_obj[plate_code] = plates[i].getAttribute("value")
         }
 
         this.setState({data: plate_obj});
-        document.getElementById('order_plate_list').innerText = plate_list.join(", ");
+
+        send_obj['plates'] = plate_obj;
+        this.sendPUT(send_obj, plate_list)
+        console.log(send_obj)
    }
 
   render() {

@@ -19,6 +19,8 @@ class Plates extends Component {
              id="PlatesList"
             />
             <UpdateOrderButton/>
+            <div id="order_plate_list">
+            </div>
         </div>
     );
   }

@@ -76,7 +76,7 @@ class Order(models.Model):
     waiter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='waiter')
     seats = models.IntegerField()
     plates = models.ManyToManyField(Plate)
-    password = models.TextField()   # What purpose? -> codice per far entrare altri clienti
+    password = models.CharField(max_length=100)   # What purpose? -> codice per far entrare altri clienti
 
     class Meta:
         unique_together = (("table", "date"))
