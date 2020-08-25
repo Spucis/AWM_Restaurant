@@ -9,17 +9,12 @@ import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import PlateList from './PlateList';
+import SideMenu from './SideMenu';
 
-const wait = (timeout) => {
-  return new Promise(resolve => {
-    setTimeout(resolve, timeout);
-  });
-}
 
 function HomeScreen({navigation}) {
   return (
   <View style={styles.container}>
-  <Refresh />
       <Text>Open up App.js to start working on your app!</Text>
       <Text> Prova APP! </Text>
       <Button
@@ -47,41 +42,22 @@ function DetailsScreen({navigation}) {
 
 const Stack = createStackNavigator();
 
-function Refresh(){
-const [refreshing, setRefreshing] = React.useState(false);
 
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-
-    wait(2000).then(() => setRefreshing(false));
-  }, []);
-
-   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView
-        contentContainerStyle={styles.scrollView}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-      >
-        <Text>Pull down to see RefreshControl indicator</Text>
-      </ScrollView>
-    </SafeAreaView>
-  );
-
-}
 
 function App() {
 
 
 return(
+<>
   <NavigationContainer style={styles.container}>
+  <SideMenu style={styles.sidemenu}/>
       <Stack.Navigator initialRouteName="Home" >
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Details" component={DetailsScreen} />
       </Stack.Navigator>
   </NavigationContainer>
-  );
+</>
+ );
 }
 
 
@@ -97,6 +73,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'pink',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  sidemenu: {
+  flex: 1,
+  alignItems: 'left',
+  backgroundColor: 'acquamarine',
+
   },
 });
 
