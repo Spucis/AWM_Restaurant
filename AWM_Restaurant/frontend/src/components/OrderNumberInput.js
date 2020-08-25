@@ -10,10 +10,12 @@ class OrderNumberInput extends Component {
       loaded: false,
       placeholder: "Loading"
     };
+
+    this.handleChange = this.handleChange.bind(this)
   }
 
-  handleChange(new_value){
-        this.setState({value: new_value});
+  handleChange(event){
+    this.setState({value: event.target.value});
   }
 
   render() {
@@ -21,9 +23,10 @@ class OrderNumberInput extends Component {
         <div>
             Insert here the order Code. If you dont have one, create it.
             <input
+                id="OrderNumberInput"
                 type="text"
                 value={this.state.value}
-                onChange={this.handleChange.bind(this)}
+                onChange={this.handleChange}
             />
         </div>
       );
@@ -31,7 +34,3 @@ class OrderNumberInput extends Component {
 }
 
 export default OrderNumberInput;
-
-const container = document.getElementById("orderCode");
-render(<OrderNumberInput />, container);
-

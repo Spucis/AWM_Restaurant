@@ -12,19 +12,18 @@ class OrdersManager(Manager):
     # GET that return the list of Orders
     @permission_required('table_mgmt.change_order', raise_exception=True)
     def do_GET(self):
-        request = self.request
         orders = None
         response = {
             'orders': []
         }
 
         # check the permissions of the user
-        if not request.user.has_perm('table_mgmt.view_order'):
+        if not self.request.user.has_perm('table_mgmt.view_order'):
             print("[DEBUG] Orders API: no permissions to view the orders")
             return JsonResponse(response)
 
         try:
-            orders = list(Order.objects.filter(client=request.user.id).all())
+            orders = list(Order.objects.filter(client=self.request.user.id).all())
         except Order.DoesNotExists:
             return JsonResponse(response)
 
@@ -35,3 +34,24 @@ class OrdersManager(Manager):
             response['orders'].append(serialized_order.data)
 
         return JsonResponse(response)
+
+    # POST that takes an Order psw and returs the Order ID
+    def do_POST(self):
+        response = {
+            'id': []
+        }
+
+        dict_body = json.loads(self.request.body)
+        print("OrderCode: {}".format(dict_body['orderCode']))
+
+        try:
+            order = Order.objects.filter(client=self.request.user.id).get(password=dict_body['orderCode'])
+            response['id'] = order.id
+        except Order.DoesNotExist:
+            response['id'] = -1
+            return JsonResponse(response)
+
+        return JsonResponse(response)
+
+
+

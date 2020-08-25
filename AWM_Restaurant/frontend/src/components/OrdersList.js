@@ -48,7 +48,7 @@ class OrdersList extends Component {
         {this.state.data.map(order => {
           return (
             <li key={order.id}>
-              Order {order.id}, {order.client.username}
+              Order {order.id}, {order.client.username} {order.password}
               <ul>
               Table {order.table}, Waiter: {order.waiter.username}:
               <ul>

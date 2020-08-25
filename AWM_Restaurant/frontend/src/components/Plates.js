@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 import PlatesList from "./PlateList";
-import OrderButton from "./OrderButton";
+import UpdateOrderButton from "./UpdateOrderButton";
 
 class Plates extends Component {
   constructor(props) {
@@ -16,9 +16,11 @@ class Plates extends Component {
     return (
         <div>
             <PlatesList
-             id="PlatessList"
+             id="PlatesList"
             />
-            <OrderButton/>
+            <UpdateOrderButton/>
+            <div id="order_plate_list">
+            </div>
         </div>
     );
   }

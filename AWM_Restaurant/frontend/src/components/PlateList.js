@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { render } from "react-dom";
 import NumericInput from 'react-numeric-input';
 import { ObjSelection } from './Utils.js';
-import { NumberPickerChange } from './Utils.js';
+import { ChangeObjValue } from './Utils.js';
 
 class PlateList extends Component {
   constructor(props) {
@@ -54,7 +54,7 @@ class PlateList extends Component {
                     className="formControl"
                     id={"np_"+plate.code+"_check"}
                     value={1}
-                    onChange={NumberPickerChange.bind(this, "np_"+plate.code+"_check")}
+                    onChange={ChangeObjValue.bind(this, "plate_"+plate.code+"_check")}
                     min={1}
                     max={30}
                     size={ 1 }
