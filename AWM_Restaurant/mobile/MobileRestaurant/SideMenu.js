@@ -4,27 +4,38 @@ import {FlatList, ActivityIndicator, Text, View, Button} from 'react-native';
 class SideMenu extends Component {
   constructor(props) {
     super(props);
+    this.style = {
+                    fontSize: 25,
+                    color: 'black',
+                 }
     this.state = {
-        active: true,
+        active: false,
     };
   }
 
   clickSidemenu(){
   if (this.state.active){
 
-
-    setState({active: false})
+    this.style = {
+                    fontSize: 25,
+                    color: 'black',
+                 }
+    this.setState({active: false})
   }else{
 
-
-    setState({active: true})
+    this.style = {
+                    fontSize: 25,
+                    color: 'black',
+                 }
+    this.setState({active: true})
   }
   }
 
 
   render() {
   return (
-        <Text style={{fontSize: 25}} onClick={this.clickSidemenu.bind(this)}>☰</Text>
+  null
+        //<Text style={this.style} onClick={this.clickSidemenu.bind(this)}>{this.state.active?'☓':'☰'}</Text>
   );
   }
 }

@@ -4,7 +4,7 @@ import {
     FlatList, ActivityIndicator, StyleSheet, Text, View, Button,
     ScrollView,
     RefreshControl,
-    SafeAreaView, } from 'react-native';
+    SafeAreaView, TextInput } from 'react-native';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -15,8 +15,15 @@ import SideMenu from './SideMenu';
 function HomeScreen({navigation}) {
   return (
   <View style={styles.container}>
+
       <Text>Open up App.js to start working on your app!</Text>
       <Text> Prova APP! </Text>
+      <TextInput
+      id="OrderNumberInput"
+      style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+      onChangeText={text => onChangeText(text)}
+      value={"CIAO ZIO"}
+    />
       <Button
         title="Go to Details page"
         onPress={() => navigation.navigate('Details')}
@@ -50,7 +57,7 @@ function App() {
 return(
 <>
   <NavigationContainer style={styles.container}>
-  <SideMenu style={styles.sidemenu}/>
+  <SideMenu />
       <Stack.Navigator initialRouteName="Home" >
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Details" component={DetailsScreen} />
@@ -73,12 +80,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'pink',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  sidemenu: {
-  flex: 1,
-  alignItems: 'left',
-  backgroundColor: 'acquamarine',
-
   },
 });
 
