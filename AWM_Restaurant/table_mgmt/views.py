@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import permission_required
 from .models import *
 from .forms import *
 from .serializers import *
-from .viewsClass import OrderClass, OrdersClass, TableClass, TablesClass, ResClass, PlateClass, WaitersClass
+from .viewsClass import OrderClass, OrdersClass, TableClass, TablesClass, ResClass, PlatesClass, WaitersClass
 
 def index(request):
     return render(request, 'table_mgmt/index.html', {

@@ -11,7 +11,6 @@ class OrderNumberButton extends Component {
   }
 
    sendCode(){
-
         // Retrieve Data for POST
         var txtInput = document.getElementById("OrderNumberInput");
 
@@ -31,7 +30,6 @@ class OrderNumberButton extends Component {
 			        var numInputOrder = document.getElementById("numInputOrder");
 			        numInputOrder.setAttribute("value", resp['id']);
 			        var customPlates = document.getElementById("customPlates");
-			        console.log(customPlates)
 			        customPlates.style = "display: block"
 			        const container = document.getElementById("inbtnjsonResp");
 			        var info = "Make Your Order!"

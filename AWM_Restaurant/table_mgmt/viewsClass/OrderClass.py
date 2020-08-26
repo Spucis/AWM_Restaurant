@@ -50,14 +50,12 @@ class OrderManager(Manager):
         order = Order.objects.get(id=req_body['order_id'])
         if order:
             if req_body['plates'] and len(req_body['plates']) > 0:
-                for plate_id in req_body['plates']:
+                for plate_id, quantity in req_body['plates'].items():
+                    print("plate_id: {}, quantity: {}".format(plate_id, quantity))
                     plate = Plate.objects.get(code=plate_id)
                     if plate:
                         order.plates.add(plate)
-                    #else: SECONDO ME NON PUÒ ACCADERE
-                        # plate with such id not found... WHY?
-                        #print("[DEBUG] Requested plate {} not found".format(plate_id))
-                        #return HttpResponseRedirect("/tables")
+                        order.plates_quantity(plate_id, quantity)
                 order.save()
             resp = {
                     'resp': "Your Order has been successfully updated!"
@@ -68,27 +66,3 @@ class OrderManager(Manager):
                     'resp': "Something wrong is happened! The selected order does't exists."
             }
             return JsonResponse(resp)
-
-        """
-        if order:
-            print(request.PUT['plates'])
-            if request.PUT['plates'] and len(request.PUT['plates']) > 0:
-                for plate_id in request.PUT['plates']: 
-                    plate = Plate.objects.filter(code=plate_id).first()
-                    if plate:
-                        order.plates.add(plate)
-                    else:
-                        # plate with such id not found... WHY?
-                        print("[DEBUG] Requested plate {} not found".format(plate_id))
-                        return HttpResponseRedirect("/tables")
-                order.save()
-                # correct, updated the order then redirect to tables
-                return HttpResponseRedirect("/restaurant")
-            else:
-                # no plates to add
-                return HttpResponseRedirect("/restaurant")
-        else:
-            # order not found
-            print("[DEBUG] Order not found")
-            return HttpResponseRedirect('/restaurant')
-        """

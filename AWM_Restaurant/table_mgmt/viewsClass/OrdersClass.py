@@ -33,19 +33,19 @@ class OrdersManager(Manager):
             serialized_order = OrderSerializer(order)
             response['orders'].append(serialized_order.data)
 
+        print(response['orders'])
         return JsonResponse(response)
 
-    # POST that takes an Order psw and returs the Order ID
+    # POST that takes an Order PSW and returns the Order ID
     def do_POST(self):
         response = {
             'id': []
         }
 
         dict_body = json.loads(self.request.body)
-        print("OrderCode: {}".format(dict_body['orderCode']))
 
         try:
-            order = Order.objects.filter(client=self.request.user.id).get(password=dict_body['orderCode'])
+            order = Order.objects.get(password=dict_body['orderCode'])
             response['id'] = order.id
         except Order.DoesNotExist:
             response['id'] = -1

@@ -30,5 +30,5 @@ urlpatterns = [
     path('restaurant/tables', views.TablesClass.TablesManager(), name='listTables'),
     path('restaurant/orders', views.OrdersClass.OrdersManager(), name='listOrders'),
     path('restaurant/waiters', views.WaitersClass.WaitersManager(), name='listWaiters'),
-    path('restaurant/plates', views.PlateClass.PlateManager(), name='listPlates'),
+    path('restaurant/plates', views.PlatesClass.PlatesManager(), name='listPlates'),
 ]

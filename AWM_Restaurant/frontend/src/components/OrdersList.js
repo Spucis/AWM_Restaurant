@@ -55,7 +55,7 @@ class OrdersList extends Component {
               {order.plates.map(plate => {
                 return (
                 <li key={plate.code}>
-                {plate.name} --- ${plate.price}
+                {plate.name} --- ${plate.price} --- {plate.order_quantity}
                 </li>
                 );
               })}
