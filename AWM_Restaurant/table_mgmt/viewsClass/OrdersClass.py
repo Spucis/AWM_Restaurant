@@ -14,7 +14,8 @@ class OrdersManager(Manager):
     def do_GET(self):
         orders = None
         response = {
-            'orders': []
+            'orders': [],
+            #'platedetails': []
         }
 
         # check the permissions of the user
@@ -33,7 +34,6 @@ class OrdersManager(Manager):
             serialized_order = OrderSerializer(order)
             response['orders'].append(serialized_order.data)
 
-        print(response['orders'])
         return JsonResponse(response)
 
     # POST that takes an Order PSW and returns the Order ID

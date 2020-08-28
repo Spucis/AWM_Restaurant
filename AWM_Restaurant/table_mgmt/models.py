@@ -75,11 +75,16 @@ class Order(models.Model):
     client = models.ForeignKey(User, on_delete=models.CASCADE, related_name='client')
     waiter = models.ForeignKey(User, on_delete=models.CASCADE, related_name='waiter')
     seats = models.IntegerField()
-    plates = models.ManyToManyField(Plate)
-    password = models.CharField(max_length=100)   # What purpose? -> codice per far entrare altri clienti
+    plates = models.ManyToManyField(Plate, through='PlateDetails')
+    password = models.CharField(max_length=100)
 
     class Meta:
         unique_together = (("table", "date"))
 
     def __str__(self):
         return 'Order {}'.format(self.id)
+
+class PlateDetails(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    plate = models.ForeignKey(Plate, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=0)

@@ -51,11 +51,14 @@ class OrderManager(Manager):
         if order:
             if req_body['plates'] and len(req_body['plates']) > 0:
                 for plate_id, quantity in req_body['plates'].items():
-                    print("plate_id: {}, quantity: {}".format(plate_id, quantity))
                     plate = Plate.objects.get(code=plate_id)
                     if plate:
-                        order.plates.add(plate)
-                        order.plates_quantity(plate_id, quantity)
+                        platedetails = PlateDetails.objects.filter(plate=plate_id, order=order.id).first()
+                        if not platedetails:
+                            order.plates.add(plate)
+                            platedetails = PlateDetails.objects.get(plate=plate_id, order=order.id)
+                        platedetails.quantity += int(quantity)
+                        platedetails.save()
                 order.save()
             resp = {
                     'resp': "Your Order has been successfully updated!"
