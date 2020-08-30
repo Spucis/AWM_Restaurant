@@ -10,26 +10,26 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import PlateList from './PlateList';
 import SideMenu from './SideMenu';
-
+import OrderPlateList from './OrderPlateList'
 
 function HomeScreen({navigation}) {
+ const [value, onChangeText] = React.useState('');
   return (
   <View style={styles.container}>
 
-      <Text>Open up App.js to start working on your app!</Text>
-      <Text> Prova APP! </Text>
+      <Text>Order number</Text>
       <TextInput
       id="OrderNumberInput"
       style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
       onChangeText={text => onChangeText(text)}
-      value={"CIAO ZIO"}
+      value={value}
     />
       <Button
-        title="Go to Details page"
+        title="Go to Order"
         onPress={() => navigation.navigate('Details')}
       />
 
-      <PlateList />
+
       <StatusBar style="auto"/>
   </View>
   );
@@ -38,8 +38,12 @@ function HomeScreen({navigation}) {
 function DetailsScreen({navigation}) {
   return (
     <View style={styles.container}>
-      <Text>Details window</Text>
-      <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
+      <Text style={{fontSize: 20}}>Your order {document.getElementById("OrderNumberInput").getAttribute("value")} </Text>
+      <Text style={{fontSize: 20}}>plates:</Text>
+      <Text id='orderNumberErrors'></Text>
+      <OrderPlateList />
+      <Text style={{fontSize: 20}}>Menu plates list:</Text>
+      <PlateList />
       <Button title="Go back" onPress={() => navigation.goBack()} />
 
       <StatusBar style="auto"/>

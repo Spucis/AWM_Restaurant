@@ -5,7 +5,6 @@ class Plate extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
     };
   }
 
@@ -17,9 +16,27 @@ class Plate extends Component {
 
   render() {
   return (
-  <Text style={{flex: 1, padding: 5}} key={this.props.item.code} onClick={this.plateClick.bind(this,this.props.item)}>{this.props.item.name}, {this.props.item.price}</Text>
+  <Text style={this.props.ordered ? styles.plate_ordered : styles.plate_new}
+        key={this.props.item.code}
+        onClick={this.plateClick.bind(this,this.props.item)}>
+        {this.props.item.name} | {this.props.item.price}€</Text>
   );
   }
 }
 
+const styles = {
+plate_ordered: {
+    flex: 1,
+    padding: 15,
+    color: 'green',
+    fontSize: 25,
+},
+plate_new: {
+    flex: 1,
+    padding: 15,
+    color: 'blue',
+    fontSize: 25,
+    cursor: 'pointer',
+},
+}
 export default Plate;

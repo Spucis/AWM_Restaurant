@@ -31,4 +31,6 @@ urlpatterns = [
     path('restaurant/orders', views.OrdersClass.OrdersManager(), name='listOrders'),
     path('restaurant/waiters', views.WaitersClass.WaitersManager(), name='listWaiters'),
     path('restaurant/plates', views.PlateClass.PlateManager(), name='listPlates'),
+    path('restaurant/csrftoken', views.get_csrf_token, name='getToken'),
+    path('restaurant/m/order', views.mobile_order, name='mobileOrder'),
 ]

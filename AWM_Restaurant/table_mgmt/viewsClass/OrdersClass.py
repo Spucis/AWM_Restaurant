@@ -1,4 +1,6 @@
 from .ManagerClass import *
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 class OrdersManager(Manager):
 
@@ -36,6 +38,7 @@ class OrdersManager(Manager):
         return JsonResponse(response)
 
     # POST that takes an Order psw and returs the Order ID
+
     def do_POST(self):
         response = {
             'id': []

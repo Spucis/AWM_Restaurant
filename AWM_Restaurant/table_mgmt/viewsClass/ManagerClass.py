@@ -4,6 +4,9 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllow
 from django.contrib.auth.decorators import permission_required, user_passes_test
 from django.contrib.auth.models import User, Group, AnonymousUser
 from django.core.exceptions import PermissionDenied
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+
 from ..models import *
 from ..forms import *
 from ..serializers import *

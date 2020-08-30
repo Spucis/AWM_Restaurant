@@ -1,6 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed, JsonResponse
 from django.contrib.auth.decorators import permission_required
+from django.middleware.csrf import get_token
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+
+import json
 
 from .models import *
 from .forms import *
@@ -66,3 +71,30 @@ def addPlate(request):
         return render(request, 'table_mgmt/addPlate.html', {
             'form': plate,
         })
+
+def get_csrf_token(request):
+    if request.method == 'GET':
+        return JsonResponse({'csrf_token' : get_token(request)})
+
+@csrf_exempt
+def mobile_order(request):
+    if request.method == 'POST':
+        # Retrieve jsonified data
+        req_body = json.loads(request.body)
+
+        order = Order.objects.get(password=req_body['orderCode'])
+        if order:
+            plates = []
+            for plate in order.plates.all():
+                plates.append(PlateSerializer(plate).data)
+
+            resp = {
+                'resp': "Your Order has been successfully been retrieved!",
+                'plates': plates,
+            }
+            return JsonResponse(resp)
+        else:
+            resp = {
+                'resp': "Something wrong is happened! The selected order does't exists."
+            }
+            return JsonResponse(resp)
