@@ -15,7 +15,6 @@ class OrdersManager(Manager):
         orders = None
         response = {
             'orders': [],
-            #'platedetails': []
         }
 
         # check the permissions of the user

@@ -32,7 +32,7 @@ class OrderManager(Manager):
         if orderForm.is_valid():
             orderForm.save()
             resp = {
-                'resp': "The prenotation is signed. You order is the number {}".format(req_body['password'])
+                'resp': "The reservation is signed. You order is the number {}".format(req_body['password'])
             }
             return JsonResponse(resp)
         else:
@@ -46,26 +46,33 @@ class OrderManager(Manager):
     def do_PUT(self):
         # Retrieve jsonified data
         req_body = json.loads(self.request.body)
+        resp = {}
 
-        order = Order.objects.get(id=req_body['order_id'])
-        if order:
-            if req_body['plates'] and len(req_body['plates']) > 0:
-                for plate_id, quantity in req_body['plates'].items():
-                    plate = Plate.objects.get(code=plate_id)
-                    if plate:
-                        platedetails = PlateDetails.objects.filter(plate=plate_id, order=order.id).first()
-                        if not platedetails:
-                            order.plates.add(plate)
-                            platedetails = PlateDetails.objects.get(plate=plate_id, order=order.id)
-                        platedetails.quantity += int(quantity)
-                        platedetails.save()
-                order.save()
-            resp = {
-                    'resp': "Your Order has been successfully updated!"
-            }
-            return JsonResponse(resp)
-        else:
+        try:
+            order = Order.objects.get(id=req_body['order_id'])
+        except Order.DoesNotExist:
             resp = {
                     'resp': "Something wrong is happened! The selected order does't exists."
             }
             return JsonResponse(resp)
+
+        if req_body['plates'] and len(req_body['plates']) > 0:
+            for plate_id, quantity in req_body['plates'].items():
+                try:
+                    plate = Plate.objects.get(code=plate_id)
+                except Plate.DoesNotExist:
+                    resp = {
+                        'plate_id': plate_id
+                    }
+                platedetails = PlateDetails.objects.filter(plate=plate_id, order=order.id).first()
+                if not platedetails:
+                    order.plates.add(plate)
+                    platedetails = PlateDetails.objects.get(plate=plate_id, order=order.id)
+                platedetails.quantity += int(quantity)
+                platedetails.save()
+            order.save()
+        resp = {
+                'resp': "Your Order has been successfully updated!"
+        }
+
+        return JsonResponse(resp)

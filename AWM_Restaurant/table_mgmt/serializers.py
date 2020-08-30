@@ -32,7 +32,7 @@ class PlateDetailsSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     client = UserSerializer()
     waiter = WaiterSerializer()
-    pds = PlateDetailsSerializer(source='platedetails_set',many=True)
+    pds = PlateDetailsSerializer(source='platedetails_set', many=True)
 
     class Meta:
         model = Order
