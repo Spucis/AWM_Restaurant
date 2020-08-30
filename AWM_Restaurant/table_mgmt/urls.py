@@ -30,7 +30,10 @@ urlpatterns = [
     path('restaurant/tables', views.TablesClass.TablesManager(), name='listTables'),
     path('restaurant/orders', views.OrdersClass.OrdersManager(), name='listOrders'),
     path('restaurant/waiters', views.WaitersClass.WaitersManager(), name='listWaiters'),
-    path('restaurant/plates', views.PlateClass.PlateManager(), name='listPlates'),
+    path('restaurant/plates', views.PlatesClass.PlatesManager(), name='listPlates'),
+
+    # Api path handler mobile
     path('restaurant/csrftoken', views.get_csrf_token, name='getToken'),
     path('restaurant/m/order', views.mobile_order, name='mobileOrder'),
+
 ]

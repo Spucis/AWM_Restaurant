@@ -52,10 +52,10 @@ class OrdersList extends Component {
               <ul>
               Table {order.table}, Waiter: {order.waiter.username}:
               <ul>
-              {order.plates.map(plate => {
+              {order.pds.map(pd => {
                 return (
-                <li key={plate.code}>
-                {plate.name} --- ${plate.price}
+                <li key={pd.id}>
+                {pd.plate.name} --- ${pd.plate.price} --- N: {pd.quantity}
                 </li>
                 );
               })}

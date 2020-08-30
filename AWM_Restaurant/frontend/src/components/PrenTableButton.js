@@ -52,7 +52,7 @@ class PrenTableButton extends Component {
             onClick={this.makePren.bind(this)}
             className="w3-button w3-center"
         >
-        PRENOTE NOW!
+        RESERVE NOW!
         </button>
     );
   }

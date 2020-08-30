@@ -22,10 +22,17 @@ class WaiterSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username',)
 
+class PlateDetailsSerializer(serializers.ModelSerializer):
+    plate = PlateSerializer()
+
+    class Meta:
+        model = PlateDetails
+        fields = '__all__'
+
 class OrderSerializer(serializers.ModelSerializer):
-    plates = PlateSerializer(many=True)
     client = UserSerializer()
     waiter = WaiterSerializer()
+    pds = PlateDetailsSerializer(source='platedetails_set', many=True)
 
     class Meta:
         model = Order
