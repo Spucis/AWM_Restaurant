@@ -84,6 +84,7 @@ def mobile_order(request):
 
         order = Order.objects.get(password=req_body['orderCode'])
         if order:
+            """
             plates = []
             for plate in order.plates.all():
                 plates.append(PlateSerializer(plate).data)
@@ -92,9 +93,51 @@ def mobile_order(request):
                 'resp': "Your Order has been successfully been retrieved!",
                 'plates': plates,
             }
+            """
+
+            serialized_order = OrderSerializer(order)
+            resp = {
+                'resp': 'Your order has been successfully been retrieved!',
+                'order': serialized_order.data
+            }
             return JsonResponse(resp)
         else:
             resp = {
                 'resp': "Something wrong is happened! The selected order does't exists."
             }
             return JsonResponse(resp)
+
+    elif request.method == 'PUT':
+        """ UPDATE THE ORDER """
+        # Retrieve jsonified data
+        req_body = json.loads(request.body)
+        resp = {}
+
+        try:
+            order = Order.objects.get(password=req_body['order_id'])
+        except Order.DoesNotExist:
+            resp = {
+                'resp': "Something wrong is happened! The selected password does't exists."
+            }
+            return JsonResponse(resp)
+
+        if req_body['plates'] and len(req_body['plates']) > 0:
+            for plate_id, quantity in req_body['plates'].items():
+                try:
+                    plate = Plate.objects.get(code=plate_id)
+                except Plate.DoesNotExist:
+                    resp = {
+                        'plate_id': plate_id
+                    }
+                platedetails = PlateDetails.objects.filter(plate=plate_id, order=order.id).first()
+                if not platedetails:
+                    order.plates.add(plate)
+                    platedetails = PlateDetails.objects.get(plate=plate_id, order=order.id)
+                platedetails.quantity += int(quantity)
+                platedetails.save()
+            order.save()
+        resp = {
+            'resp': "Your Order has been successfully updated!"
+        }
+
+        return JsonResponse(resp)

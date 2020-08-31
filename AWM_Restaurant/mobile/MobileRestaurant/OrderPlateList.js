@@ -16,22 +16,28 @@ class PlateList extends Component {
   // Retrieve Data for POST
   // CONTROLLARE: PROBABILMENTE BISOGNA ANDARE SU ORDER E NON ORDERS
         var txtInput = document.getElementById("OrderNumberInput");
-        console.log(txtInput.getAttribute("value"))
+        //console.log(txtInput.getAttribute("value"))
+        //console.log("PIPPO CALIPPO")
         var obj = { orderCode: txtInput.getAttribute("value")};
 		var json_obj = JSON.stringify(obj);
 
         var xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = (e) =>
 		{
+		    //console.log("EHI STATO")
 			if (xhr.readyState === 4)
 			{
+			    //console.log("STATO 4")
 			    var resp = JSON.parse(xhr.response);
 			    if(xhr.status == 200)
 			    {
-			        var response = JSON.parse(xhr.responseText)
-			        var plates = response['plates']
+			        //console.log(resp)
+			        var order = resp['order']
 
-                    this.setState({isLoading: false, data: plates})
+                    //console.log("STATO ATTUALE")
+                    //console.log(order)
+                    this.setState({isLoading: false, data: order})
+
 
 			    }
 			    else
@@ -59,7 +65,7 @@ request.onreadystatechange = (e) => {
   }
 
   if (request.status === 200) {
-    console.log('success csrf token', JSON.parse(request.responseText));
+    //console.log('success csrf token', JSON.parse(request.responseText));
     this.setState({csrf_token: JSON.parse(request.responseText)['csrf_token']})
     this.send_post()
   } else {
@@ -78,14 +84,15 @@ request.send();
 
   render() {
   const { data, isLoading } = this.state;
-  console.log(this.state)
+    //console.log("RENDER ORDER_PLATE_LIST")
+    //console.log(data)
     return (
 
     <View style={{ flex: 1, padding: 24 }}>
         {isLoading ? <ActivityIndicator/> : (
             <FlatList
             id='OrderPlatesList'
-            data={data}
+            data={data.pds}
             renderItem={({ item }) => (
               <Plate item={item} ordered={true}/>
             )}

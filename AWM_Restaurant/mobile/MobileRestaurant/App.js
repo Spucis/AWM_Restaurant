@@ -11,6 +11,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import PlateList from './PlateList';
 import SideMenu from './SideMenu';
 import OrderPlateList from './OrderPlateList'
+import UpdateButton from './UpdateButton'
 
 function HomeScreen({navigation}) {
  const [value, onChangeText] = React.useState('');
@@ -43,9 +44,9 @@ function DetailsScreen({navigation}) {
       <Text id='orderNumberErrors'></Text>
       <OrderPlateList />
       <Text style={{fontSize: 20}}>Menu plates list:</Text>
-      <PlateList />
-      <Button title="Go back" onPress={() => navigation.goBack()} />
+      <PlateList navigation={navigation}/>
 
+      <Button title="Go back" onPress={() => navigation.goBack()} />
       <StatusBar style="auto"/>
   </View>
   );
