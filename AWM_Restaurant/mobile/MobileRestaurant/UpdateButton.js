@@ -27,37 +27,21 @@ class UpdateButton extends Component {
 			    console.log("RISPOSTA PUT UPDATE ORDER")
 			    console.log(resp.resp)
 			    this.props.navigation.navigate('Home');
-                this.props.navigation.navigate('Details');
+                this.props.navigation.navigate('Details',{ order_code: this.props.order_code });
 			}
 		}
 
-		xhr.open("PUT", "http://127.0.0.1:8000/restaurant/m/order", true);
+		xhr.open("PUT", "http://192.168.1.33:8000/restaurant/m/order", true);
 		xhr.setRequestHeader("Content-type", "application/json");
 		//xhr.setRequestHeader("X-CSRFToken", csrftoken)
 		xhr.send(json_obj);
    }
 
   updateOrder(){
-  // MAKE THE UPDATED ORDER THEN USE PUT TO THE SERVER
-  var current_order = this.props.order
-  var txtInput = document.getElementById("OrderNumberInput");
-  var order_id = txtInput.value
-  console.log("DIZIONARIO IN UPDATE ORDER")
-    console.log(current_order)
-    var value
-    for(var idx in current_order){
-        if(current_order.hasOwnProperty(idx)){
-            console.log("INDEX "+idx)
-            console.log(current_order[idx])
+    // MAKE THE UPDATED ORDER THEN USE PUT TO THE SERVER
+    var current_order = this.props.order
 
-            value = document.getElementById(idx+'_pad').value
-            current_order[idx] += +value
-        }
-    }
-    console.log(current_order)
-    console.log("FINE UPDATE ORDER")
-
-    this.sendPUT({"order_id": order_id, "plates": current_order})
+    this.sendPUT({"order_id": this.props.order_code, "plates": current_order})
   }
 
   render() {

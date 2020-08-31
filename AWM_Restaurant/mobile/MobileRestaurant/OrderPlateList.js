@@ -15,10 +15,10 @@ class PlateList extends Component {
   send_post(){
   // Retrieve Data for POST
   // CONTROLLARE: PROBABILMENTE BISOGNA ANDARE SU ORDER E NON ORDERS
-        var txtInput = document.getElementById("OrderNumberInput");
+        //var txtInput = document.getElementById("OrderNumberInput");
         //console.log(txtInput.getAttribute("value"))
         //console.log("PIPPO CALIPPO")
-        var obj = { orderCode: txtInput.getAttribute("value")};
+        var obj = { orderCode: this.props.order_code};
 		var json_obj = JSON.stringify(obj);
 
         var xhr = new XMLHttpRequest();
@@ -51,9 +51,9 @@ class PlateList extends Component {
 			}
 		}
 
-		xhr.open("POST", "http://127.0.0.1:8000/restaurant/m/order", true);
+		xhr.open("POST", "http://192.168.1.33:8000/restaurant/m/order", true);
 		xhr.setRequestHeader("Content-type", "application/json");
-		xhr.setRequestHeader("X-CSRFToken", this.state.csrf_token)
+		//xhr.setRequestHeader("X-CSRFToken", this.state.csrf_token)
 		xhr.send(json_obj);
   }
   componentDidMount() {
@@ -73,7 +73,7 @@ request.onreadystatechange = (e) => {
   }
 };
 
-request.open('GET', 'http://127.0.0.1:8000/restaurant/csrftoken');
+request.open('GET', 'http://192.168.1.33:8000/restaurant/csrftoken');
 request.setRequestHeader("Content-Type", "application/json");
 request.send();
 

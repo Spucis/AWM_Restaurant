@@ -27,7 +27,7 @@ function HomeScreen({navigation}) {
     />
       <Button
         title="Go to Order"
-        onPress={() => navigation.navigate('Details')}
+        onPress={() => navigation.navigate('Details', {order_code: value})}
       />
 
 
@@ -36,15 +36,16 @@ function HomeScreen({navigation}) {
   );
 }
 
-function DetailsScreen({navigation}) {
+function DetailsScreen({route, navigation}) {
+const { order_code } = route.params;
   return (
     <View style={styles.container}>
-      <Text style={{fontSize: 20}}>Your order {document.getElementById("OrderNumberInput").getAttribute("value")} </Text>
+      <Text style={{fontSize: 20}}>Your order {order_code} </Text>
       <Text style={{fontSize: 20}}>plates:</Text>
       <Text id='orderNumberErrors'></Text>
-      <OrderPlateList />
+      <OrderPlateList order_code={order_code}/>
       <Text style={{fontSize: 20}}>Menu plates list:</Text>
-      <PlateList navigation={navigation}/>
+      <PlateList navigation={navigation} route={route} order_code={order_code}/>
 
       <Button title="Go back" onPress={() => navigation.goBack()} />
       <StatusBar style="auto"/>

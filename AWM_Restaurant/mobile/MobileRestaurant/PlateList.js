@@ -13,6 +13,7 @@ class PlateList extends Component {
       isLoading: true,
     };
     this.onClickPlate = this.onClickPlate.bind(this)
+    this.updateCurrentOrder = this.updateCurrentOrder.bind(this)
   }
 
   initOrder(){
@@ -28,24 +29,24 @@ class PlateList extends Component {
 
   componentDidMount() {
 
-      var request = new XMLHttpRequest();
-request.onreadystatechange = (e) => {
-  if (request.readyState !== 4) {
-    return;
-  }
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = (e) => {
+      if (request.readyState !== 4) {
+        return;
+      }
 
-  if (request.status === 200) {
-    //console.log('success', JSON.parse(request.responseText));
-    this.setState({data: JSON.parse(request.responseText).plates, isLoading: false})
-    this.initOrder()
-  } else {
-    console.warn('error');
-  }
-};
+      if (request.status === 200) {
+        //console.log('success', JSON.parse(request.responseText));
+        this.setState({data: JSON.parse(request.responseText).plates, isLoading: false})
+        this.initOrder()
+      } else {
+        console.warn('error');
+      }
+    };
 
-request.open('GET', 'http://127.0.0.1:8000/restaurant/plates');
-request.setRequestHeader("Content-Type", "application/json");
-request.send();
+    request.open('GET', 'http://192.168.1.33:8000/restaurant/plates');
+    request.setRequestHeader("Content-Type", "application/json");
+    request.send();
 
 
   }
@@ -63,9 +64,23 @@ request.send();
     console.log("UPDATED ORDER:")
     console.log(this.state.current_order)
   }
+
+
+
+  updateCurrentOrder(text, id){
+    var curr_order = this.state.current_order
+    curr_order[id] = +text
+    this.setState({ current_order: curr_order })
+
+    console.log("UPDATED ORDER:")
+    console.log(this.state.current_order)
+  }
+
+
   render() {
   const { data, isLoading } = this.state;
   //console.log(this.state)
+  //value={value.toString()}
     return (
 
     <View style={{ flex: 1, padding: 24 }}
@@ -74,13 +89,25 @@ request.send();
         <>
             <FlatList
             data={data}
+            key={'plates_flatlist'}
             renderItem={({ item }) => (
-              <Plate item={item} ordered={false} clicked={false} onClick={this.onClickPlate}/>
+              <>
+                  <Plate key={item.code+'_plate'} item={item} ordered={false} clicked={false} onClick={this.onClickPlate}/>
 
+                  <TextInput
+
+                      keyboardType='number-pad'
+                      key={item.code+'_pad'}
+                      id={item.code+'_pad'}
+                      onChangeText={(text) => {
+                                                  this.updateCurrentOrder(text, item.code);
+                                              }}
+                  />
+              </>
             )}
           />
 
-        <UpdateButton title="Update Order" navigation={this.props.navigation} order={this.state.current_order}/>
+        <UpdateButton key={'UpdateButton'}title="Update Order" navigation={this.props.navigation} route={this.props.route} order={this.state.current_order} order_code={this.props.order_code}/>
         </>
         )}
     </View>
