@@ -32,10 +32,15 @@ class PrenTableButton extends Component {
 		{
 			if (xhr.readyState === 4)
 			{
-			    var resp = JSON.parse(xhr.response);
-				const container = document.getElementById("jsonResp");
-                render(resp['resp'], container);
-
+			    if(xhr.status === 200){
+                    var resp = JSON.parse(xhr.response);
+                    const container = document.getElementById("jsonResp");
+                    render(resp['resp'], container);
+                }
+                else
+                {
+                    console.warn("Error on reservation phase")
+                }
 			}
 		}
 

@@ -9,7 +9,6 @@ import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import PlateList from './PlateList';
-import SideMenu from './SideMenu';
 import OrderPlateList from './OrderPlateList'
 import UpdateButton from './UpdateButton'
 
@@ -17,20 +16,18 @@ function HomeScreen({navigation}) {
  const [value, onChangeText] = React.useState('');
   return (
   <View style={styles.container}>
-
       <Text>Order number</Text>
       <TextInput
-      id="OrderNumberInput"
-      style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-      onChangeText={text => onChangeText(text)}
-      value={value}
-    />
+          id="OrderNumberInput"
+          style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+          onChangeText={text => onChangeText(text)}
+          value={value}
+      />
+
       <Button
         title="Go to Order"
         onPress={() => navigation.navigate('Details', {order_code: value})}
       />
-
-
       <StatusBar style="auto"/>
   </View>
   );
@@ -63,7 +60,6 @@ function App() {
 return(
 <>
   <NavigationContainer style={styles.container}>
-  <SideMenu />
       <Stack.Navigator initialRouteName="Home" >
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Details" component={DetailsScreen} />

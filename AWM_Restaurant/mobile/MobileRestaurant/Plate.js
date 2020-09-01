@@ -8,6 +8,7 @@ class Plate extends Component {
     };
   }
 
+  //deprecated
   plateClick(item){
     console.log("PLATE CLICKED")
     /*
@@ -40,7 +41,8 @@ class Plate extends Component {
                 key={this.props.item.code}
                 id={this.props.item.code}
                 onClick={this.plateClick.bind(this,this.props.item)}>
-                {this.props.item.name} | {this.props.item.price}€ </Text>
+                {this.props.item.name} | {this.props.item.price}€
+            </Text>
 
             </>
           );
@@ -61,7 +63,7 @@ plate_new: {
     padding: 15,
     color: 'blue',
     fontSize: 25,
-    //cursor: 'pointer',
+    //cursor: 'pointer', // not supported in mobile
 },
 }
 export default Plate;

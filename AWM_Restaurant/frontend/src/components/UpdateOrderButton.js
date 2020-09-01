@@ -21,7 +21,8 @@ class UpdateOrderButton extends Component {
 			if (xhr.readyState === 4)
 			{
 			    var resp = JSON.parse(xhr.response);
-			    if(1)
+			    // previous if(1)
+			    if(xhr.status === 200)
 			    {
 			        document.getElementById('order_plate_list').innerText = plate_list.join(", ");
 			    }
