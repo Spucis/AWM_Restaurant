@@ -24,22 +24,32 @@ class OrderNumberButton extends Component {
 		{
 			if (xhr.readyState === 4)
 			{
-			    var resp = JSON.parse(xhr.response);
-			    if(resp['id'] > 0)
+			    if(xhr.status === 200)
 			    {
-			        var numInputOrder = document.getElementById("numInputOrder");
-			        numInputOrder.setAttribute("value", resp['id']);
-			        var customPlates = document.getElementById("customPlates");
-			        customPlates.style = "display: block"
-			        const container = document.getElementById("inbtnjsonResp");
-			        var info = "Make Your Order!"
-                    render(info, container);
+                    var resp = JSON.parse(xhr.response);
+                    if(resp['id'] > 0)
+                    {
+                        var numInputOrder = document.getElementById("numInputOrder");
+                        numInputOrder.setAttribute("value", resp['id']);
+                        var customPlates = document.getElementById("customPlates");
+                        customPlates.style = "display: block"
+                        const container = document.getElementById("inbtnjsonResp");
+                        var info = "Make Your Order!"
+                        render(info, container);
 
+                    }
+                    else
+                    {
+                        const container = document.getElementById("inbtnjsonResp");
+                        var info = "The number entered does not corrispond to any Order"
+                        render(info, container);
+                    }
 			    }
 			    else
 			    {
-                    const container = document.getElementById("inbtnjsonResp");
-                    var info = "The number entered does not corrispond to any Order"
+			        console.warn("Error while retrieving data for the order")
+			        const container = document.getElementById("inbtnjsonResp");
+                    var info = "Error while retrieving data for the order"
                     render(info, container);
 			    }
 			}

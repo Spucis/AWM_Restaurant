@@ -17,14 +17,11 @@ class PlateList extends Component {
   }
 
   initOrder(){
-    console.log("INIT ORDER...")
-    console.log(this.state.data)
     var curr_order = {}
     for (var plate_idx in this.state.data){
         curr_order[this.state.data[plate_idx].code] = 0
     }
     this.setState({current_order: curr_order})
-    console.log(this.state.current_order)
   }
 
   componentDidMount() {
@@ -36,7 +33,6 @@ class PlateList extends Component {
       }
 
       if (request.status === 200) {
-        //console.log('success', JSON.parse(request.responseText));
         this.setState({data: JSON.parse(request.responseText).plates, isLoading: false})
         this.initOrder()
       } else {
@@ -51,9 +47,10 @@ class PlateList extends Component {
 
   }
 
-  // INVECE CHE FARLO SUL SINGOLO PIATTO, implementare una funzione che scorra tutti i piatti e i pad e crei l'ordine?
+  //Deprecated
   onClickPlate(item, value){
     console.log("RECEIVED")
+    /*
     console.log(item)
     console.log(value)
 
@@ -63,6 +60,7 @@ class PlateList extends Component {
     this.setState({current_order: curr_order})
     console.log("UPDATED ORDER:")
     console.log(this.state.current_order)
+    */
   }
 
 
@@ -78,39 +76,50 @@ class PlateList extends Component {
 
 
   render() {
-  const { data, isLoading } = this.state;
-  //console.log(this.state)
-  //value={value.toString()}
+    const { data, isLoading } = this.state;
     return (
-
-    <View style={{ flex: 1, padding: 24 }}
-            id='PlatesList'>
-        {isLoading ? <ActivityIndicator/> : (
-        <>
-            <FlatList
-            data={data}
-            key={'plates_flatlist'}
-            renderItem={({ item }) => (
-              <>
-                  <Plate key={item.code+'_plate'} item={item} ordered={false} clicked={false} onClick={this.onClickPlate}/>
-
-                  <TextInput
-
-                      keyboardType='number-pad'
-                      key={item.code+'_pad'}
-                      id={item.code+'_pad'}
-                      onChangeText={(text) => {
-                                                  this.updateCurrentOrder(text, item.code);
-                                              }}
-                  />
-              </>
+        <View style={{ flex: 1, padding: 24 }}
+              id='PlatesList'>
+            {isLoading ? <ActivityIndicator/> : (
+            <>
+                <FlatList
+                    data={data}
+                    key={'plates_flatlist'}
+                    keyExtractor={item => item.code.toString()}
+                    renderItem={({ item }) => (
+                      <>
+                          <Plate
+                              key={item.code+'_plate'}
+                              id={item.code+'_plateID'}
+                              item={item}
+                              ordered={false}
+                              clicked={false}
+                              onClick={this.onClickPlate}
+                          />
+                          <Text>Click to select the quantity:</Text>
+                          <TextInput
+                              keyboardType='number-pad'
+                              key={item.code+'_pad'}
+                              id={item.code+'_padID'}
+                              onChangeText={(text) => {
+                                                          this.updateCurrentOrder(text, item.code);
+                                                      }}
+                          />
+                      </>
+                )}
+                />
+                <Text>Then click to update your order!</Text>
+                <UpdateButton
+                    key={'UpdateButton'}
+                    title="Update Order"
+                    navigation={this.props.navigation}
+                    route={this.props.route}
+                    order={this.state.current_order}
+                    order_code={this.props.order_code}
+                />
+            </>
             )}
-          />
-
-        <UpdateButton key={'UpdateButton'}title="Update Order" navigation={this.props.navigation} route={this.props.route} order={this.state.current_order} order_code={this.props.order_code}/>
-        </>
-        )}
-    </View>
+        </View>
     );
   }
 }

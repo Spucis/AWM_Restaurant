@@ -23,12 +23,16 @@ class UpdateButton extends Component {
 		{
 			if (xhr.readyState === 4)
 			{
-			    var resp = JSON.parse(xhr.response);
-			    console.log("RISPOSTA PUT UPDATE ORDER")
-			    console.log(resp.resp)
-			    this.props.navigation.navigate('Home');
-                this.props.navigation.navigate('Details',{ order_code: this.props.order_code });
-			}
+			    if(xhr.status === 200){
+                    var resp = JSON.parse(xhr.response);
+                    this.props.navigation.navigate('Home');
+                    this.props.navigation.navigate('Details',{ order_code: this.props.order_code });
+                }
+                else
+                {
+                    console.warn("Error while updating the order")
+                }
+            }
 		}
 
 		xhr.open("PUT", "http://192.168.1.33:8000/restaurant/m/order", true);
@@ -38,17 +42,19 @@ class UpdateButton extends Component {
    }
 
   updateOrder(){
-    // MAKE THE UPDATED ORDER THEN USE PUT TO THE SERVER
-    var current_order = this.props.order
+    // Pass the updated order to the server
 
+    var current_order = this.props.order
     this.sendPUT({"order_id": this.props.order_code, "plates": current_order})
+
   }
 
   render() {
     return (
-    <Button title="Update Order" onPress={() => {this.updateOrder();
-
-                                                 }} />
+        <Button
+            title="Update Order"
+            onPress={() => { this.updateOrder(); }}
+        />
     );
   }
 }
