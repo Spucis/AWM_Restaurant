@@ -32,7 +32,7 @@ class OrderNumberButton extends Component {
 			        var customPlates = document.getElementById("customPlates");
 			        customPlates.style = "display: block"
 			        const container = document.getElementById("inbtnjsonResp");
-			        var info = "Make Your Order!"
+			        var info = "Update the Order "+txtInput.getAttribute("value");
                     render(info, container);
 
 			    }
