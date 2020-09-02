@@ -10,7 +10,7 @@ class UpdateOrderButton extends Component {
     };
   }
 
-   sendPUT(obj, plate_list)
+   sendPUT(obj)
    {
         const csrftoken = Cookies.get('csrftoken');
 		var json_obj = JSON.stringify(obj);
@@ -20,11 +20,10 @@ class UpdateOrderButton extends Component {
 		{
 			if (xhr.readyState === 4)
 			{
-			    var resp = JSON.parse(xhr.response);
-			    // previous if(1)
+			    var resp = JSON.parse(xhr.response)
 			    if(xhr.status === 200)
 			    {
-			        document.getElementById('order_plate_list').innerText = plate_list.join(", ");
+			        document.getElementById('order_plate_list').innerText = "Order Updated!"
 			    }
 			    else
 			    {
@@ -46,7 +45,6 @@ class UpdateOrderButton extends Component {
         {/* plate_obj: { "plate_code": "num_of_portions" }*/}
         var send_obj = {};
         var plate_obj = {};
-        var plate_list = [];
 
         var plates = document.getElementsByName("selected_plate");
         var numInputOrder = document.getElementById("numInputOrder");
@@ -55,13 +53,7 @@ class UpdateOrderButton extends Component {
         for (var i=0;i< plates.length;i++){
             var toCutStart = "plate_".length;
             var toCutEnd = "_check".length;
-            var plate_code = plates[i].parentElement.id.slice(toCutStart);
-
-            plate_list.push("".
-                             concat(plate_code.toString(),
-                             " - ",
-                             plates[i].parentElement.firstElementChild.innerText)
-                            );
+            var plate_code = plates[i].id.slice(toCutStart, (plates[i].id.length - toCutEnd));
 
             plate_obj[plate_code] = plates[i].getAttribute("value")
         }
@@ -69,8 +61,7 @@ class UpdateOrderButton extends Component {
         this.setState({data: plate_obj});
 
         send_obj['plates'] = plate_obj;
-        this.sendPUT(send_obj, plate_list)
-        console.log(send_obj)
+        this.sendPUT(send_obj)
    }
 
   render() {

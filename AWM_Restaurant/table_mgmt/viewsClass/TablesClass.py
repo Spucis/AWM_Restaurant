@@ -8,8 +8,8 @@ class TablesManager(Manager):
         return self.call_check(self.request)
 
     # GET that return a list of tables
+    @permission_required('table_mgmt.view_table', raise_exception=True)
     def do_GET(self):
-    # self.request.user.has_perm('table_mgmt.view_table'):
         tables = None
         response = {
             'tables': []

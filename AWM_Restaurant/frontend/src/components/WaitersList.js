@@ -7,6 +7,7 @@ class WaitersList extends Component {
     super(props);
     this.state = {
       data: [],
+      error: "",
       loaded: false,
       placeholder: "Loading"
     };
@@ -17,41 +18,54 @@ class WaitersList extends Component {
       .then(response => {
         if (response.status > 400) {
           return this.setState(() => {
-            return { placeholder: "Something went wrong!" };
+            return { error: response.status, placeholder: "Something went wrong!" };
           });
         }
         return response.json();
       })
       .then(data => {
         this.setState(() => {
-          return {
-            data: data['waiters'],
-            loaded: true
-          };
+          if(data)
+          {
+            return {
+                data: data['waiters'],
+                loaded: true
+            };
+          }
         });
       });
   }
 
   render() {
-    return (
-    <div>
-      <ul className="w3-ul w3-xlarge">
-        {this.state.data.map(waiters => {
-          return (
-            <li id={waiters.id} key={waiters.id}>
-              Waiter {waiters.id}, {waiters.username}:
-              <i id={"waiter_"+waiters.id}
-              className="far fa-check-circle w3-margin-left"
-              name="unselected_waiter"
-              style={{cursor: "pointer"}}
-              onClick={changeSelectedObj.bind(this, "waiter_"+waiters.id, "waiter")}>
-              </i>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
-    );
+    if(this.state.error === "")
+    {
+        return (
+        <div>
+          <ul className="w3-ul w3-xlarge">
+            {this.state.data.map(waiters => {
+              return (
+                <li id={waiters.id} key={waiters.id}>
+                  Waiter {waiters.id}, {waiters.username}:
+                  <i id={"waiter_"+waiters.id}
+                  className="far fa-check-circle w3-margin-left"
+                  name="unselected_waiter"
+                  style={{cursor: "pointer"}}
+                  onClick={changeSelectedObj.bind(this, "waiter_"+waiters.id, "waiter")}>
+                  </i>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+        );
+    }
+    else
+    {
+        return(
+            <div>
+            </div>
+        )
+    }
   }
 }
 

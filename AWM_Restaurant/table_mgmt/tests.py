@@ -5,9 +5,6 @@ from .models import *
 import datetime
 from django.utils import timezone
 
-
-# Create your tests here.
-
 class OrderHttpTests(TestCase):
 
     def setUp(self):

@@ -13,6 +13,7 @@ class TableList extends Component {
     super(props);
     this.state = {
       data: [],
+      error: "",
       date: new Date(),
       loaded: false,
       placeholder: "Loading"
@@ -24,57 +25,71 @@ class TableList extends Component {
       .then(response => {
         if (response.status > 400) {
           return this.setState(() => {
-            return { placeholder: "Something went wrong!" };
+            return { error: response.status, placeholder: "Something went wrong!" };
           });
         }
         return response.json();
       })
       .then(data => {
         this.setState(() => {
-          return {
-            data: data['tables'],
-            loaded: true
-          };
+          if(data)
+          {
+            return {
+                data: data['tables'],
+                loaded: true
+            };
+          }
+
         });
       });
   }
 
   render() {
-    return (
-    <div>
-      <ul className="w3-ul w3-xlarge">
-        {this.state.data.map(table => {
-          return (
-            <li id={"table_"+table.number} key={table.number}>
-              Table {table.number}
-              <i id={"table_"+table.number+"_check"}
-              className="far fa-check-circle w3-margin-left"
-              name="unselected_table"
-              style={{cursor: "pointer"}}
-              onClick={changeSelectedObj.bind(this, "table_"+table.number+"_check", "table")}>
-              </i>
-            </li>
-          );
-        })}
+    if(this.state.error === "")
+    {
+        return (
         <div>
-            <Calendar/>
+          <ul className="w3-ul w3-xlarge">
+            {this.state.data.map(table => {
+              return (
+                <li id={"table_"+table.number} key={table.number}>
+                  Table {table.number}
+                  <i id={"table_"+table.number+"_check"}
+                  className="far fa-check-circle w3-margin-left"
+                  name="unselected_table"
+                  style={{cursor: "pointer"}}
+                  onClick={changeSelectedObj.bind(this, "table_"+table.number+"_check", "table")}>
+                  </i>
+                </li>
+              );
+            })}
+            <div>
+                <Calendar/>
+            </div>
+            <div>
+                Seats:<SeatsPicker/>
+            </div>
+            <div>
+                <WaitersList />
+            </div>
+            <div>
+                <PrenTableButton />
+            </div>
+            <div
+                id="jsonResp"
+                style={{color: "green"}}>
+            </div>
+          </ul>
         </div>
-        <div>
-            Seats:<SeatsPicker/>
-        </div>
-        <div>
-            <WaitersList />
-        </div>
-        <div>
-            <PrenTableButton />
-        </div>
-        <div
-            id="jsonResp"
-            style={{color: "green"}}>
-        </div>
-      </ul>
-    </div>
-    );
+        );
+    }
+    else{
+        return(
+            <div>
+                You are not logged in!
+            </div>
+        )
+    }
   }
 }
 

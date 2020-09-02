@@ -12,7 +12,7 @@ class OrdersManager(Manager):
         return self.call_check(self.request)
 
     # GET that return the list of Orders
-    @permission_required('table_mgmt.change_order', raise_exception=True)
+    @permission_required('table_mgmt.view_order', raise_exception=True)
     def do_GET(self):
         orders = None
         response = {

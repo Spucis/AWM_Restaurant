@@ -27,7 +27,7 @@ export function changeSelectedObj(id, name){
     }
 }
 
-export function ObjSelection(id, name){
+export function ObjSelection(id, name, relObj=""){
     // far non trovato; far=non selezionato; fas=selezionato
     var x = document.getElementById(id);
     if (x.className.indexOf("far") == -1) {
@@ -35,11 +35,23 @@ export function ObjSelection(id, name){
       x.style = "cursor: pointer;";
       x.setAttribute("name","unselected_"+name);
       x.setAttribute("title", "Click to select this"+name+"for your order.");
+
+      if(relObj!="")
+      {
+        var rObj = document.getElementById(relObj)
+        rObj.style = "display: none; margin-top: 10px;";
+      }
     } else {
       x.className = x.className.replace("far", "fas");
       x.style = "cursor: pointer; color: green;";
       x.setAttribute("name","selected_"+name);
       x.setAttribute("title", "Click to delete this"+name+"from your order.")
+
+      if(relObj!="")
+      {
+        var rObj = document.getElementById(relObj)
+        rObj.style = "display: block; margin-top: 10px;";
+      }
     }
 }
 
