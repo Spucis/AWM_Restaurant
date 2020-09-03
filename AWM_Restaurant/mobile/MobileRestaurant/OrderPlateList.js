@@ -41,7 +41,7 @@ class PlateList extends Component {
 			}
 		}
 
-		xhr.open("POST", "http://192.168.1.33:8000/restaurant/m/order", true);
+		xhr.open("POST", "http://192.168.1.33:8080/restaurant/m/order", true);
 		xhr.setRequestHeader("Content-type", "application/json");
 		xhr.send(json_obj);
   }
@@ -61,7 +61,7 @@ class PlateList extends Component {
         }
     };
 
-    request.open('GET', 'http://192.168.1.33:8000/restaurant/csrftoken');
+    request.open('GET', 'http://192.168.1.33:8080/restaurant/csrftoken');
     request.setRequestHeader("Content-Type", "application/json");
     request.send();
   }

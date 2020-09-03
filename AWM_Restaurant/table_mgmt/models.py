@@ -1,10 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator
 
 # Create your models here.
 class Table(models.Model):
-    number = models.IntegerField(primary_key=True)
+    number = models.IntegerField(primary_key=True, validators=[MinValueValidator(0)])
 
     def __str__(self):
         return 'Table {}'.format(self.number)
