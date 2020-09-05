@@ -68,11 +68,42 @@ class OrderManager(Manager):
                 if not platedetails:
                     order.plates.add(plate)
                     platedetails = PlateDetails.objects.get(plate=plate_id, order=order.id)
+
                 platedetails.quantity += int(quantity)
+                if platedetails.quantity < 0:
+                    platedetails.quantity = 0
                 platedetails.save()
             order.save()
         resp = {
                 'resp': "Your Order has been successfully updated!"
+        }
+
+        return JsonResponse(resp)
+
+    # DELETE that delete an Order
+    @permission_required('table_mgmt.delete_order', raise_exception=True)
+    def do_DELETE(self):
+        # Retrieve jsonified data
+        req_body = json.loads(self.request.body)
+        resp = {}
+
+        try:
+            order = Order.objects.get(id=req_body['order_id'])
+        except Order.DoesNotExist:
+            resp = {
+                'resp': "Something wrong is happened! The selected order does't exists."
+            }
+            return JsonResponse(resp)
+
+        try:
+            order.delete()
+        except:
+            resp = {
+                'resp': "Something wrong is happened while trying to delete the order."
+            }
+
+        resp = {
+            'resp': "Your Order has been successfully deleted!"
         }
 
         return JsonResponse(resp)
