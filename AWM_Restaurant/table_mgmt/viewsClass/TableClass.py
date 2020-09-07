@@ -1,5 +1,6 @@
 from .ManagerClass import *
 
+
 class TableManager(Manager):
 
     def __call__(self, request, table=None):
@@ -24,9 +25,59 @@ class TableManager(Manager):
     # POST that add a new table
     @permission_required('table_mgmt.add_table', raise_exception=True)
     def do_POST(self):
-        tableForm = TableForm(self.request.POST)
-        if tableForm.is_valid():
-            tableForm.save()
-            return HttpResponseRedirect('/tables')
+        # Retrieve jsonified data
+        req_body = json.loads(self.request.body)
+        resp = {}
+
+        if 'from_ajax' in req_body:
+            try:
+                table = Table.objects.create(number=int(req_body['table_number']))
+                table.save()
+                resp = {
+                    'resp': "Table successfully created."
+                }
+                return JsonResponse(resp)
+            except:
+                resp = {
+                    'resp': "Something went wrong while creating the new table. (Already exists?)"
+                }
+                return JsonResponse(resp, status=500)
+
         else:
-            return HttpResponseRedirect('/tables/add/')
+            tableForm = TableForm(self.request.POST)
+            if tableForm.is_valid():
+                tableForm.save()
+                return HttpResponseRedirect('/tables')
+            else:
+                return HttpResponseRedirect('/tables/add/')
+
+    @permission_required('table_mgmt.delete_table', raise_exception=True)
+    def do_DELETE(self):
+        """
+        Deletes the requested table
+        """
+        # Retrieve jsonified data
+        req_body = json.loads(self.request.body)
+        resp = {}
+
+        try:
+            table = Table.objects.get(number=req_body['table_number'])
+        except Table.DoesNotExist:
+            resp = {
+                'resp': "Something wrong is happened! The selected table does't exists."
+            }
+            return JsonResponse(resp)
+
+        try:
+            table.delete()
+        except:
+            resp = {
+                'resp': "Something wrong is happened while trying to delete the table."
+            }
+
+        resp = {
+            'resp': "This table has been successfully deleted!"
+        }
+
+        return JsonResponse(resp)
+

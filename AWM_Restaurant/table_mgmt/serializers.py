@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User, Group, Permission
 from .models import *
 
 class TableSerializer(serializers.ModelSerializer):
@@ -11,6 +11,20 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username']
+
+class PermissionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Permission
+        fields = ['codename']
+
+    def to_representation(self, value):
+        return str(value.codename)
+
+class GroupSerializer(serializers.ModelSerializer):
+    permissions = PermissionSerializer(many=True)
+    class Meta:
+        model = Group
+        fields = '__all__'
 
 class PlateSerializer(serializers.ModelSerializer):
     class Meta:

@@ -8,8 +8,9 @@ class OrdersList extends Component {
       data: [],
       error: "",
       loaded: false,
-      placeholder: "Loading"
+      placeholder: "Loading",
     };
+    this.componentDidMount = this.componentDidMount.bind(this);
     this.send_delete_order = this.send_delete_order.bind(this)
     this.send_delete_plates = this.send_delete_plates.bind(this)
     this.onClick_delete_plates = this.onClick_delete_plates.bind(this)
@@ -33,7 +34,7 @@ class OrdersList extends Component {
            if(data){
                 return {
                     data: data['orders'],
-                    loaded: true
+                    loaded: true,
                 }
           }
         });
@@ -220,7 +221,15 @@ class OrdersList extends Component {
             <ul>
                 <button
                     id="refreshOrders"
-                    onClick={this.componentDidMount.bind(this)}
+                    onClick={() => {  this.setState({  data: [],
+                                                error: "",
+                                                loaded: false,
+
+                                                placeholder: "Loading",
+                                            });
+                                       this.componentDidMount()
+                                }
+                             }
                     className="w3-button w3-center"
                 >
                 Refresh Your Orders!
@@ -260,7 +269,7 @@ class OrdersList extends Component {
                   <ul className="w3-ul">
                   {order.pds.map(pd => {
                     return (
-                    <li key={pd.id} className="w3-row w3-hover-gray">
+                    <li key={pd.id} className="w3-row w3-hover-dark-gray">
                     <span className="w3-left">Plate: <span className="w3-text-amber" style={{textShadow:'1px 1px 0 #444'}}>{pd.plate.name}</span></span>
                     <span className="w3-left w3-margin-left">Unit price: <span className="w3-text-amber" style={{textShadow:'1px 1px 0 #444'}} >${pd.plate.price}</span></span>
                     <span className="w3-left w3-margin-left w3-container"><span className="w3-left">Qt.:</span> <span id={ order.id+"_"+pd.plate.code+"_qty" }

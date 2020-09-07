@@ -24,10 +24,16 @@ class OrdersManager(Manager):
             print("[DEBUG] Orders API: no permissions to view the orders")
             return JsonResponse(response)
 
-        try:
-            orders = list(Order.objects.filter(client=self.request.user.id).all())
-        except Order.DoesNotExists:
-            return JsonResponse(response)
+        if self.request.user.groups.filter(name='waiters').exists():
+            try:
+                orders = list(Order.objects.filter(waiter=self.request.user.id).all())
+            except Order.DoesNotExists:
+                return JsonResponse(response)
+        else:
+            try:
+                orders = list(Order.objects.filter(client=self.request.user.id).all())
+            except Order.DoesNotExists:
+                return JsonResponse(response)
 
         # Serializer has been modified and it returns the name of clients and
         # waiters and plates instead of their codes
