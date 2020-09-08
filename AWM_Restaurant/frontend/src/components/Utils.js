@@ -12,7 +12,7 @@ export function changeSelectedObj(id, name){
         }
         old_selected_obj[0].className = old_selected_obj[0].className.replace("fas", "far");
         old_selected_obj[0].style = "cursor: pointer;";
-        old_selected_obj[0].setAttribute("title", "Click to select this"+name+" for your order.");
+        old_selected_obj[0].setAttribute("title", "Click to select this "+name+" for your order.");
         old_selected_obj[0].setAttribute("name","unselected"+name);
     }
 

@@ -65,7 +65,7 @@ class OrderNumberButton extends Component {
         <button
             id="numInputOrder"
             onClick={this.sendCode.bind(this)}
-            className="w3-button w3-center"
+            className="w3-button w3-border"
             value={-1}
         >
         Send Code!

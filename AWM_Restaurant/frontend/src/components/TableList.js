@@ -109,10 +109,11 @@ class TableList extends Component {
     if( this.state.loaded && this.state.error === "" )
     {
         return (
-        <div>
-          <ul className="w3-ul w3-xlarge">
+        <ul className="w3-ul w3-border">
+
           {this.state.user.permissions.includes("add_table")?
-          <div id="table_adder_block">
+          <li>
+          <div id="table_adder_block" >
             Add table: <TableAdder />
             <span
                 id="table_adder_add"
@@ -127,56 +128,71 @@ class TableList extends Component {
                                            }}
                 ></span>
           </div>
+          </li>
           :
           <div></div>
           }
+          <li>
+          <div className="w3-xlarge w3-container w3-cell-row">
             {this.state.data.map(table => {
               return (
-                <li id={"table_"+table.number} key={table.number}>
-                  Table {table.number}
+                <div id={"table_"+table.number} key={table.number} className="w3-container w3-cell w3-padding w3-xlarge w3-hover-gray w3-center" style={{cursor: 'default'}}>
+                  <span className="w3-text-amber" ><strong>Table {table.number}</strong></span>
                   <i id={"table_"+table.number+"_check"}
                   className="far fa-check-circle w3-margin-left"
                   name="unselected_table"
                   style={{cursor: "pointer"}}
+                  title="Click to select this table!"
                   onClick={changeSelectedObj.bind(this, "table_"+table.number+"_check", "table")}>
                   </i>
                   {
                   this.state.user['permissions'].includes("delete_table")
                     ?<span
                       id={"table_"+table.number+"_delete"}
-                      className="w3-margin-left far fa-times-circle w3-margin-left"
+                      className="far fa-times-circle"
                       style={{color: 'red'}}
-                      onMouseEnter={(element) => {document.getElementById(element.target.id).setAttribute('class', "w3-margin-left fas fa-times-circle");
+                      onMouseEnter={(element) => {document.getElementById(element.target.id).setAttribute('class', "fas fa-times-circle");
                                                     document.getElementById(element.target.id).setAttribute('style', "color: red; cursor: pointer;");
                                                     }}
-                      onMouseLeave={(element) => {document.getElementById(element.target.id).setAttribute('class', "w3-margin-left far fa-times-circle w3-margin-left");
+                      onMouseLeave={(element) => {document.getElementById(element.target.id).setAttribute('class', "far fa-times-circle");
                                                     document.getElementById(element.target.id).setAttribute('style', "color: red;");
                                                    }}
                       onClick={() => {this.delete_table(table.number)}}
                       ></span>
                     :<span></span>
                   }
-                </li>
+                </div>
               );
             })}
-            <div>
+          </div>
+          </li>
+          <li>
+          <div className="w3-container w3-margin">
+            <div className="w3-cell">
                 <Calendar/>
             </div>
-            <div>
-                Seats:<SeatsPicker/>
+            <div className="w3-cell w3-padding">
+                Seats: <SeatsPicker/>
             </div>
-            <div>
-                <WaitersList />
-            </div>
-            <div>
+          </div>
+          </li>
+          <li>
+          <div className="w3-margin">
+              <WaitersList />
+          </div>
+          </li>
+          <li>
+          <div>
+            <div className="w3-margin">
                 <PrenTableButton />
             </div>
             <div
                 id="jsonResp"
                 style={{color: "green"}}>
             </div>
-          </ul>
-        </div>
+          </div>
+          </li>
+        </ul>
         );
     }
     else{

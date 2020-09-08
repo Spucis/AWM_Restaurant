@@ -41,21 +41,21 @@ class WaitersList extends Component {
     {
         return (
         <div>
-          <ul className="w3-ul w3-xlarge">
+          <div className="w3-container w3-xlarge">
             {this.state.data.map(waiters => {
               return (
-                <li id={waiters.id} key={waiters.id}>
-                  Waiter {waiters.id}, {waiters.username}:
+                <div id={waiters.id} key={waiters.id} className="w3-cell w3-padding w3-hover-gray">
+                  <span className="w3-text-amber"><strong>Waiter {waiters.id}</strong></span> ({waiters.username})
                   <i id={"waiter_"+waiters.id}
                   className="far fa-check-circle w3-margin-left"
                   name="unselected_waiter"
                   style={{cursor: "pointer"}}
                   onClick={changeSelectedObj.bind(this, "waiter_"+waiters.id, "waiter")}>
                   </i>
-                </li>
+                </div>
               );
             })}
-          </ul>
+          </div>
         </div>
         );
     }

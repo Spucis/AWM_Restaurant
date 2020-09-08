@@ -20,8 +20,8 @@ class OrderNumberInput extends Component {
 
   render() {
       return (
-        <div>
-            Insert here the order Code. If you dont have one, create it.
+        <div className="w3-row">
+            <span className="w3-xxlarge">{"Insert here the order Code. If you don't have one" }<a className="w3-button w3-border w3-margin-left" href="#reserve_table">create it</a></span>
             <input
                 id="OrderNumberInput"
                 type="text"

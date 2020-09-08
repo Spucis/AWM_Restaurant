@@ -20,9 +20,11 @@ class OrderInput extends Component {
             id="inbtnjsonResp"
             style={{color: "green"}}>
           </ul>
-          <ul>
-            <OrderNumberInput/>
-            <OrderNumberButton/>
+          <ul className="w3-ul">
+              <li>
+                <OrderNumberInput/>
+                <OrderNumberButton/>
+              </li>
           </ul>
         </div>
       );
