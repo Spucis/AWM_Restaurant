@@ -28,38 +28,38 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Amatic SC", sans-serif}
 <!-- Navbar (sit on top) -->
 <div class="w3-top w3-hide-small">
   <div class="w3-bar w3-xlarge w3-black w3-opacity w3-hover-opacity-off" id="myNavbar">
-    <div>
-      <a href="#" class="w3-bar-item w3-button">HOME</a>
+    <div class="w3-left w3-display-left">
+      <a href="#" class="w3-bar-item w3-button w3-display-leftmiddle">HOME</a>
       <a href="#menu" class="w3-bar-item w3-button">MENU</a>
       <a href="#about" class="w3-bar-item w3-button">ABOUT</a>
       <a href="#myMap" class="w3-bar-item w3-button">CONTACT</a>
       <a href={% url "portal_welcome" %} class="w3-bar-item w3-button">PORTAL</a>
     </div>
-
+    {%if user.is_authenticated %}
     <div class="w3-bar-item w3-right w3-dropdown-hover" style="padding:0px; margin:0px;">
-      <button class="w3-button w3-black" style="padding:0px;">
+      <button class="w3-button" style="padding:0px;">
         <a href={% url "login" %} class="w3-bar-item w3-button w3-right">
         {%if user.is_authenticated %}
         {{user.get_username }}
         {% endif %}
         </a>
       </button>
-      {%if user.is_authenticated %}
         <div class="w3-dropdown-content w3-bar-block w3-border">
           <a href={% url "logout_view" %} class="w3-bar-item w3-button">LOGOUT</a>
         </div>
+    </div>
       {% else %}
-        <div class="w3-bar-item w3-right">
+    <div class="w3-bar-item w3-right" style="cursor: default;">
           <form method="post" action="/login/">
             {% csrf_token %}
-            Username: <input id="id_username" type="text" name="username" autofocus="" required="">
+            Username: <input class="w3-margin-right" id="id_username" type="text" name="username" autofocus="" required="">
             Password: <input id="id_password" type="password" name="password" autofocus="" required="">
             <input type="hidden" name="next" value="/restaurant/" />
             <input type="submit" class="w3-button" value="login" />
           </form>
-        </div>
-      {%endif%}
     </div>
+    {%endif%}
+
   </div>
 </div>
   
@@ -209,4 +209,6 @@ document.getElementById("myLink").click();
 </script>
 <script src="{% static "frontend/main.js" %}"></script>
 
-</body></html>
+</body>
+
+</html>
