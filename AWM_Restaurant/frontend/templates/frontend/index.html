@@ -35,6 +35,12 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Amatic SC", sans-serif}
       <a href="#myMap" class="w3-bar-item w3-button">CONTACT</a>
       <a href={% url "portal_welcome" %} class="w3-bar-item w3-button">PORTAL</a>
     </div>
+      {%if user.is_authenticated %}
+      {% else %}
+        <div class="w3-center w3-display-center" id="SignUpButton">
+        </div>
+      {% endif %}
+
     {%if user.is_authenticated %}
     <div class="w3-bar-item w3-right w3-dropdown-hover" style="padding:0px; margin:0px;">
       <button class="w3-button" style="padding:0px;">
@@ -75,10 +81,20 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Amatic SC", sans-serif}
   </div>
 </header>
 
+<!-- SignUp Container -->
+<div class="w3-container w3-white w3-padding-64 w3-xxlarge" id="SignUp" style="display: none;">
+  <div class="w3-content">
+
+    <div id="createUser">
+    </div>
+
+  </div>
+</div>
+
 <!-- Menu Container -->
 <div class="w3-container w3-black w3-padding-64 w3-xxlarge" id="menu">
   <div class="w3-content">
-  
+
     <h1 class="w3-center w3-jumbo" style="margin-bottom:64px">THE MENU</h1>
 
     <div class="w3-container w3-row w3-center w3-border w3-border-dark-grey w3-light-grey">
