@@ -40,7 +40,7 @@ class WaitersList extends Component {
     if(this.state.error === "")
     {
         return (
-        <div>
+        <div className="w3-col m3 l2">
           <div className="w3-container w3-xlarge">
             {this.state.data.map(waiters => {
               return (

@@ -105,7 +105,11 @@ class TableList extends Component {
   }
 
   render() {
+    var tablesPerRow = 6
+    var numTables = this.state.data.length
+    var tableCount = 0
 
+    console.log("NUM TABLES: "+numTables)
     if( this.state.loaded && this.state.error === "" )
     {
         return (
@@ -133,10 +137,11 @@ class TableList extends Component {
           <div></div>
           }
           <li>
-          <div className="w3-xlarge w3-container w3-cell-row">
+          <div className="w3-xlarge w3-container w3-row">
             {this.state.data.map(table => {
               return (
-                <div id={"table_"+table.number} key={table.number} className="w3-container w3-cell w3-padding w3-xlarge w3-hover-gray w3-center" style={{cursor: 'default'}}>
+
+                <div id={"table_"+table.number} key={table.number} className="w3-container w3-col m3 l2 w3-padding w3-xlarge w3-hover-gray w3-center" style={{cursor: 'default'}}>
                   <span className="w3-text-amber" ><strong>Table {table.number}</strong></span>
                   <i id={"table_"+table.number+"_check"}
                   className="far fa-check-circle w3-margin-left"
@@ -167,17 +172,17 @@ class TableList extends Component {
           </div>
           </li>
           <li>
-          <div className="w3-container w3-margin">
-            <div className="w3-cell">
+          <div className="w3-container w3-margin w3-row">
+            <div className="w3-cell w3-col m6 l6">
                 <Calendar/>
             </div>
-            <div className="w3-cell w3-padding">
+            <div className="w3-cell w3-padding w3-col m6 l6">
                 Seats: <SeatsPicker/>
             </div>
           </div>
           </li>
           <li>
-          <div className="w3-margin">
+          <div className="w3-margin w3-row">
               <WaitersList />
           </div>
           </li>

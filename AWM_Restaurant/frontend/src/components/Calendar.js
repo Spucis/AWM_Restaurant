@@ -8,6 +8,7 @@ class Calendar extends Component {
     super(props);
     this.state = {
       date: new Date(),
+      time: 0,
       loaded: false,
     };
   }
@@ -24,7 +25,7 @@ class Calendar extends Component {
       <DatePicker
         selected={this.state.date}
         onChange={this.handleChange}
-        dateFormat='MM/dd/yyyy'
+        dateFormat='MM/dd/yyyy HH:mm'
         showTimeSelect
         timeFormat='HH:mm'
         timeIntervals={30}

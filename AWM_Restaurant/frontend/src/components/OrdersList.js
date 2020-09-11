@@ -240,17 +240,18 @@ class OrdersList extends Component {
             {this.state.data.map(order => {
               return (
                 <li key={order.id} className="w3-row w3-xlarge w3-display-container w3-margin-top" >
-                  <span className="w3-left w3-margin-right">Order <span className="w3-text-amber">{order.id}</span></span>
-                  <span className="w3-left w3-margin-left">Date: <span className="w3-text-amber">{ order.date.split('T')[0]//+' '+
-                                                    /*order.date.split('T')[1].slice(0,-1)*/}</span></span>
-                  <span className="w3-display-topmiddle">CODE:
+                  <span className="w3-left w3-margin-right w3-col m2 l1">Order <span className="w3-text-amber">{order.id}</span></span>
+                  <span className="w3-left w3-margin-left w3-col m4 l3">Date: <span className="w3-text-amber">{ order.date.split('T')[0]+' '+
+                                                                                                   order.date.split('T')[1].slice(0,-1)
+                                                                                                  }</span></span>
+                  <span className=" w3-col m5 l5">CODE:
                     <span
                         className="w3-xxlarge w3-text-amber w3-border w3-border-amber w3-margin-left"
                         id={order.id+"_password"}
                         > {order.password}
                     </span>
                   </span>
-                  <span className="w3-right far fa-times-circle"
+                  <span className="w3-right far fa-times-circle m1 l1"
                         id={order.id+'_deleteOrder'}
                         title="Delete order!"
                         style={{color: 'red'}}
