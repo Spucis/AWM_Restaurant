@@ -5,5 +5,5 @@ import WaitersList from "./components/WaitersList";
 import UpdateOrderButton from "./components/UpdateOrderButton";
 import PrenTableButton from "./components/PrenTableButton";
 import OrderInput from "./components/OrderInput";
-import CreateUser from "./components/CreateUser";
 import SignUpButton from "./components/SignUpButton";
+import SignUp from "./components/SignUp";

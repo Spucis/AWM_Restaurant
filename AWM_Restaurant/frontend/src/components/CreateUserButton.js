@@ -14,9 +14,9 @@ class CreateUserButton extends Component {
 
   sendPOST(){
         // Retrieve Data for POST
-        var userInput = document.getElementById("id_username");
-        var psw1Input = document.getElementById("id_password1");
-        var psw2Input = document.getElementById("id_password1");
+        var userInput = document.getElementById("sign_username");
+        var psw1Input = document.getElementById("sign_password1");
+        var psw2Input = document.getElementById("sign_password2");
 
         const csrftoken = Cookies.get('csrftoken');
 
@@ -36,7 +36,26 @@ class CreateUserButton extends Component {
 			{
 			    if(xhr.status === 200)
 			    {
-                    console.log("OKKK")
+                    location.reload()
+			    }
+
+			    if(xhr.status === 422)
+			    {
+
+                    var info = ""
+			        var resp = JSON.parse(xhr.response);
+
+                    console.log(resp)
+
+                    var container = document.getElementById("SignUpErrors");
+
+                    for(var key in resp)
+                        if(resp.hasOwnProperty(key))
+                            info += key+": "+resp[key][0].message+"\n"
+                            var container = document.getElementById("SignUpErrors");
+
+                    render(info, container);
+
 			    }
 			}
 		}

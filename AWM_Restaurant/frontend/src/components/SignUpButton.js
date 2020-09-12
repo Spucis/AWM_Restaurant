@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
+import { showObj } from './Utils.js';
 
 class SignUpButton extends Component {
   constructor(props) {
@@ -12,25 +13,11 @@ class SignUpButton extends Component {
     };
   }
 
-  showSignUp(){
-    var signupContainer = document.getElementById("SignUp");
-
-    console.log(signupContainer.style.display)
-
-    if (signupContainer.style.display == "block")
-        signupContainer.style = "display: none"
-    else
-        signupContainer.style = "display: block"
-
-    console.log(signupContainer.style.display)
-
-  }
-
   render() {
     return(
         <button
-            id="btnCreateUser"
-            onClick={this.showSignUp.bind(this)}
+            id="btnSignUp"
+            onClick={showObj.bind(this, "SignUp")}
             className="w3-button w3-border"
         >
             SignUp

@@ -15,11 +15,11 @@ class CreateUser extends Component {
 
   render() {
     return(
-        <div>
-            <div style={{display: "block"}}>
-                Username: <input type="text" name="username" maxLength="150" autoFocus="" required="" id="id_username"/>
-                Password: <input type="password" name="password1" required="" id="id_password1"/>
-                Confirm:  <input type="password" name="password2" required="" id="id_password2"/>
+        <div className="w3-container">
+            <div className="w3-section" style={{display: "block"}}>
+                Username: <input className="w3-input w3-border w3-margin-bottom" type="text" placeholder="Enter Username" name="username" maxLength="150" autoFocus="" required="" id="sign_username"/>
+                Password: <input className="w3-input w3-border" type="password" name="password1" placeholder="Enter Password" required="" id="sign_password1"/>
+                Confirm:  <input className="w3-input w3-border" type="password" name="password2" placeholder="Enter Password" required="" id="sign_password2"/>
             </div>
             <CreateUserButton/>
         </div>
@@ -29,6 +29,4 @@ class CreateUser extends Component {
 
 export default CreateUser;
 
-const container = document.getElementById("createUser");
-render(<CreateUser/>, container);
 
