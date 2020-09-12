@@ -59,3 +59,13 @@ export function ChangeObjValue(id, new_value) {
         var selected_obj = document.getElementById(id);
         selected_obj.setAttribute("value", new_value)
 }
+
+export function showObj(id){
+
+    var obj = document.getElementById(id);
+
+    if (obj.style.display == "block")
+        obj.style = "display: none"
+    else
+        obj.style = "display: block"
+  }

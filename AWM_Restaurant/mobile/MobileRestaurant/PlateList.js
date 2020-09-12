@@ -40,7 +40,7 @@ class PlateList extends Component {
       }
     };
 
-    request.open('GET', 'http://192.168.1.33:8080/restaurant/plates');
+    request.open('GET', 'http://192.168.1.127:8080/restaurant/plates');
     request.setRequestHeader("Content-Type", "application/json");
     request.send();
 

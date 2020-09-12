@@ -35,7 +35,7 @@ class UpdateButton extends Component {
             }
 		}
 
-		xhr.open("PUT", "http://192.168.1.33:8080/restaurant/m/order", true);
+		xhr.open("PUT", "http://192.168.1.127:8080/restaurant/m/order", true);
 		xhr.setRequestHeader("Content-type", "application/json");
 		//xhr.setRequestHeader("X-CSRFToken", csrftoken)
 		xhr.send(json_obj);
