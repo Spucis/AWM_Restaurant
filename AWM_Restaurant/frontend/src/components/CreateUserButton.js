@@ -51,7 +51,7 @@ class CreateUserButton extends Component {
 
                     for(var key in resp)
                         if(resp.hasOwnProperty(key))
-                            info += key+": "+resp[key][0].message+"\n"
+                            info = key+": "+resp[key][0].message+"\n"
                             var container = document.getElementById("SignUpErrors");
 
                     render(info, container);

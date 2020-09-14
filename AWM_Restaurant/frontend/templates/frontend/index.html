@@ -34,7 +34,9 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Amatic SC", sans-serif}
       <a href="#menu" class="w3-bar-item w3-button">MENU</a>
       <a href="#about" class="w3-bar-item w3-button">ABOUT</a>
       <a href="#myMap" class="w3-bar-item w3-button">CONTACT</a>
+      {% if user.is_authenticated %}
       <a href={% url "portal_welcome" %} class="w3-bar-item w3-button">PORTAL</a>
+      {% endif %}
     </div>
     </div>
     {%if user.is_authenticated %}
@@ -63,8 +65,11 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Amatic SC", sans-serif}
             <input type="submit" class="w3-button" value="login" />
           </form>
     </div>
+        <div class="w3-bar-item w3-right" id="SignUpButton">
+
+        </div>
     </div>
-   {%endif%}
+    {%endif%}
   </div>
 </div>
   
