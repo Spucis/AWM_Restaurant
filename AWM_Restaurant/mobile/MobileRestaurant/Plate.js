@@ -36,7 +36,6 @@ class Plate extends Component {
       }
       else{
           return(
-            <>
             <Text key={'plate_'+this.props.item.code+'_text'} style={this.props.ordered ? styles.plate_ordered : styles.plate_new}
                 key={this.props.item.code}
                 id={this.props.item.code}
@@ -44,7 +43,6 @@ class Plate extends Component {
                 {this.props.item.name} | {this.props.item.price}€
             </Text>
 
-            </>
           );
       }
 

@@ -13,6 +13,7 @@ import OrderPlateList from './OrderPlateList'
 import UpdateButton from './UpdateButton'
 
 function HomeScreen({navigation}) {
+ const ip_address = "192.168.1.33:8080"
  const [value, onChangeText] = React.useState('');
   return (
   <View style={styles.container}>
@@ -26,7 +27,7 @@ function HomeScreen({navigation}) {
 
       <Button
         title="Go to Order"
-        onPress={() => navigation.navigate('Details', {order_code: value})}
+        onPress={() => navigation.navigate('Details', {order_code: value, ip_address: ip_address})}
       />
       <StatusBar style="auto"/>
   </View>
@@ -34,15 +35,15 @@ function HomeScreen({navigation}) {
 }
 
 function DetailsScreen({route, navigation}) {
-const { order_code } = route.params;
+const { order_code, ip_address } = route.params;
   return (
     <View style={styles.container}>
       <Text style={{fontSize: 20}}>Your order {order_code} </Text>
       <Text style={{fontSize: 20}}>plates:</Text>
       <Text id='orderNumberErrors'></Text>
-      <OrderPlateList order_code={order_code}/>
+      <OrderPlateList order_code={order_code} ip_address={ip_address}/>
       <Text style={{fontSize: 20}}>Menu plates list:</Text>
-      <PlateList navigation={navigation} route={route} order_code={order_code}/>
+      <PlateList navigation={navigation} route={route} order_code={order_code} ip_address={ip_address}/>
 
       <Button title="Go back" onPress={() => navigation.goBack()} />
       <StatusBar style="auto"/>

@@ -214,8 +214,11 @@ class OrdersList extends Component {
 
   }
   render() {
+
     if(this.state.error === "")
     {
+    console.log("ASDASDASDAS")
+    console.log(location.origin)
         return (
         <div>
             <ul>

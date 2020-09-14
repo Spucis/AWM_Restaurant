@@ -41,11 +41,13 @@ class PlateList extends Component {
 			}
 		}
 
-		xhr.open("POST", "http://192.168.1.127:8080/restaurant/m/order", true);
+		xhr.open("POST", "http://"+this.props.ip_address+"/restaurant/m/order", true);
 		xhr.setRequestHeader("Content-type", "application/json");
 		xhr.send(json_obj);
   }
   componentDidMount() {
+  /*
+  }
     var request = new XMLHttpRequest();
 
     request.onreadystatechange = (e) => {
@@ -61,9 +63,13 @@ class PlateList extends Component {
         }
     };
 
-    request.open('GET', 'http://192.168.1.127:8080/restaurant/csrftoken');
+    request.open('GET', "http://"+this.props.ip_address+"/restaurant/csrftoken');
     request.setRequestHeader("Content-Type", "application/json");
     request.send();
+    */
+
+    this.send_post()
+
   }
 
 
@@ -75,6 +81,7 @@ class PlateList extends Component {
             <FlatList
             id='OrderPlatesList'
             data={data.pds}
+            key="OrderPlateListKey"
             renderItem={({ item }) => (
               <Plate key={"orderedPlateComponent_"+item.plate.code} item={item} ordered={true}/>
             )}
