@@ -22,13 +22,13 @@ class OrderManager(Manager):
         req_body['client'] = self.request.user.id  # Add client id -> Maybe there is a better way?
 
         # Generating hash for the order
-        req_body['password'] = "{}".format(hash("{}{}".format(req_body['client'], req_body['date'])))
+        req_body['password'] = "{}".format(hash("{}{}{}".format(req_body['client'], req_body['date'], req_body['table'])))
 
         # Parse data in a structure acceptable from OrderForm
         q_body = QueryDict('', mutable=True)
         q_body.update(req_body)
 
-        orderForm = OrderForm(q_body)               # !!!! -Test sulla data, sempre maggiore di oggi- !!!!
+        orderForm = OrderForm(q_body)
         if orderForm.is_valid():
             orderForm.save()
             resp = {
@@ -37,12 +37,10 @@ class OrderManager(Manager):
             return JsonResponse(resp)
         else:
             # Catch errors
-            print("The Order form wasn't correct")
-            print(orderForm.errors)
             return HttpResponseRedirect('/restaurant/')
 
     # PUT that update an Order
-    @permission_required('table_mgmt.change_order', raise_exception=True)
+    # @permission_required('table_mgmt.change_order', raise_exception=True)
     def do_PUT(self):
         # Retrieve jsonified data
         req_body = json.loads(self.request.body)

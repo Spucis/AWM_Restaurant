@@ -13,10 +13,10 @@ from .serializers import *
 from .viewsClass import OrderClass, OrdersClass, TableClass, TablesClass, ResClass, PlatesClass, WaitersClass, UserClass
 
 def index(request):
-    return render(request, 'table_mgmt/index.html', {
-        'title': 'Index page',
-        'content': 'Index content (dispatch?)'
-    })
+    return HttpResponseRedirect('/restaurant')
+
+def handle_page_not_found(request, exception):
+    return HttpResponseRedirect('/restaurant')
 
 @permission_required('table_mgmt.add_menu', raise_exception=True)
 def createMenu(request):

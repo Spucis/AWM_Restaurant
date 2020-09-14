@@ -37,5 +37,6 @@ urlpatterns = [
     # Api path handler mobile
     path('restaurant/csrftoken', views.get_csrf_token, name='getToken'),
     path('restaurant/m/order', views.mobile_order, name='mobileOrder'),
-
 ]
+
+handler404 = 'table_mgmt.views.handle_page_not_found'

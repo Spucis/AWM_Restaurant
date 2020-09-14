@@ -25,3 +25,6 @@ urlpatterns = [
     path('', include('django.contrib.auth.urls')),
     path('restaurant/', include(('frontend.urls', 'frontend'), namespace='frontend')),
 ]
+
+handler404 = 'table_mgmt.views.handle_page_not_found'
+
