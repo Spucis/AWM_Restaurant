@@ -50,6 +50,11 @@ class UpdateOrderButton extends Component {
         var numInputOrder = document.getElementById("numInputOrder");
 	    send_obj['order_id'] = numInputOrder.getAttribute("value");
 
+        if (plates.length == 0){
+             document.getElementById('order_plate_list').innerText = "0 Plates Selected!"
+             return
+        }
+
         for (var i=0;i< plates.length;i++){
             var toCutStart = "plate_".length;
             var toCutEnd = "_check".length;

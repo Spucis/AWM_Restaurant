@@ -44,14 +44,12 @@ class CreateUserButton extends Component {
 
                     var info = ""
 			        var resp = JSON.parse(xhr.response);
-
-                    console.log(resp)
-
                     var container = document.getElementById("SignUpErrors");
 
                     for(var key in resp)
                         if(resp.hasOwnProperty(key))
-                            info = key+": "+resp[key][0].message+"\n"
+
+                            info += key+": "+decodeURIComponent(resp[key][0].message)+"\n"
                             var container = document.getElementById("SignUpErrors");
 
                     render(info, container);
