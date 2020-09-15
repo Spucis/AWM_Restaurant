@@ -28,7 +28,7 @@ class Login extends Component {
                   </pre>
 
                  <div className="w3-bar-item w3-large w3-padding" style={{cursor: "default"}} id="LoginButton">
-                      <form method="post" action="/login/">
+                      <form method="post" action="/restaurant/login">
                         Username: <input className="w3-input w3-border w3-margin-right" id="id_username" type="text" name="username" autoFocus="" required=""/><br/>
                         Password: <input id="id_password" type="password" className="w3-input w3-border" name="password" autoFocus="" required=""/><br/>
                         <input type="hidden" name="next" value="/restaurant/" />

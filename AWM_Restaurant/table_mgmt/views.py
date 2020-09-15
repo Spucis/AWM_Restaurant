@@ -10,7 +10,7 @@ import json
 from .models import *
 from .forms import *
 from .serializers import *
-from .viewsClass import OrderClass, OrdersClass, TableClass, TablesClass, ResClass, PlatesClass, WaitersClass, UserClass
+from .viewsClass import OrderClass, OrdersClass, TableClass, TablesClass, ResClass, PlatesClass, WaitersClass, UserClass, LoginClass
 
 def index(request):
     return HttpResponseRedirect('/restaurant')

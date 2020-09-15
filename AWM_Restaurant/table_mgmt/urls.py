@@ -26,6 +26,7 @@ urlpatterns = [
     path('orders/u/<int:order_id>/', views.OrderClass.OrderManager(), name='updateOrder'),
 
     # API path handler
+    path('restaurant/login', views.LoginClass.LoginManager(), name='loginUser'),
     path('restaurant/createUser', views.UserClass.UserManager(), name='createUser'),
     path('restaurant/order', views.OrderClass.OrderManager(), name='Order'),
     path('restaurant/tables', views.TablesClass.TablesManager(), name='listTables'),

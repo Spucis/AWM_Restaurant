@@ -19,11 +19,7 @@
 	{{ form.password.label_tag }}
 	{{ form.password }}
 </p>
-{% if next %}
-	<input type="hidden" name="next" value="{{ next }}" />	
-{% else %}
 	<input type="hidden" name="next" value="/restaurant/" />
-{% endif %}
 <input type="submit" value="login" />
 </form>
 </section>
