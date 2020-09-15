@@ -56,17 +56,9 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Amatic SC", sans-serif}
     </div>
       {% else %}
     <div class="w3-col m6 l6">
-    <div class="w3-bar-item w3-right" style="cursor: default;">
-          <form method="post" action="/login/">
-            {% csrf_token %}
-            Username: <input class="w3-margin-right" id="id_username" type="text" name="username" autofocus="" required="">
-            Password: <input id="id_password" type="password" name="password" autofocus="" required="">
-            <input type="hidden" name="next" value="/restaurant/" />
-            <input type="submit" class="w3-button" value="login" />
-          </form>
-    </div>
         <div class="w3-bar-item w3-right" id="SignUpButton">
-
+        </div>
+        <div class="w3-bar-item w3-right" id="LoginButton">
         </div>
     </div>
     {%endif%}
@@ -87,6 +79,11 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Amatic SC", sans-serif}
 
 <!-- SignUp Container -->
 <div id="SignUpModal">
+
+</div>
+
+<!-- Login Container -->
+<div id="LoginModal">
 
 </div>
 

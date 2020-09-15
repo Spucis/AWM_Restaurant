@@ -18,7 +18,7 @@ class SignUp extends Component {
     return(
         <div className="w3-container">
             <div id="SignUp" className="w3-modal">
-                <div className="w3-modal-content w3-card-4 w3-animate-zoom" style={{maxWidth: "600px"}}>
+                <div className="w3-modal-content w3-card-4 w3-animate-zoom w3-padding" style={{maxWidth: "600px"}}>
 
                   <div className="w3-center"><br/>
                     <span onClick={showObj.bind(this, "SignUp")} className="w3-button w3-xlarge w3-hover-red w3-display-topright" title="Close Modal">&times;</span>
@@ -29,10 +29,6 @@ class SignUp extends Component {
                   </pre>
 
                   <CreateUser />
-
-                  <div className="w3-container w3-border-top w3-padding-16 w3-light-grey">
-                    <button type="button" className="w3-button w3-red">Cancel</button>
-                  </div>
 
                 </div>
             </div>
