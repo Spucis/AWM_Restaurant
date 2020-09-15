@@ -39,6 +39,6 @@ class UserManager(Manager):
             login(self.request, user)
             return JsonResponse({'resp' : 'UserCreated'})
         else:
-            return JsonResponse(json.loads(form.errors.as_json(escape_html=True)), status=422)
+            return JsonResponse(json.loads(form.errors.as_json()), status=422)
 
 
