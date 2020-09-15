@@ -53,8 +53,9 @@ Segue una lista dei pacchetti necessari alla corretta esecuzione dell'applicazio
 * django-filter (2.3.0)
 * Markdown (3.2.2)
 
-Tutti i pacchetti richiesti possono essere installati utilizzando [pip3](https://pip.pypa.io/en/stable/)
-Eventualmente, potrebbe interessare la creazione di un virtualenv mediante [venv](https://docs.python.org/3/library/venv.html)
+Tutti i pacchetti richiesti possono essere installati utilizzando [pip3](https://pip.pypa.io/en/stable/).
+
+Eventualmente, potrebbe interessare la creazione di un virtualenv mediante [venv](https://docs.python.org/3/library/venv.html).
 
 ## Contributors
 * Alessio Ruggi - ??? - ??mail?? 
