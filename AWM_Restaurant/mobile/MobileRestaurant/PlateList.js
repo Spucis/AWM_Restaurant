@@ -36,7 +36,7 @@ class PlateList extends Component {
         this.setState({data: JSON.parse(request.responseText).plates, isLoading: false})
         this.initOrder()
       } else {
-        console.warn('error');
+        console.warn('error while getting the plates');
       }
     };
 
@@ -70,22 +70,20 @@ class PlateList extends Component {
     curr_order[id] = +text
     this.setState({ current_order: curr_order })
 
-    console.log("UPDATED ORDER:")
-    console.log(this.state.current_order)
   }
 
 
   render() {
     const { data, isLoading } = this.state;
     return (
-        <View style={{ flex: 1, padding: 24 }}
+        <View style={{ flex: 1, padding: 6 }}
               id='PlatesList'>
             {isLoading ? <ActivityIndicator/> : (
             <>
                 <FlatList
                     data={data}
                     key={'plates_flatlist'}
-                    keyExtractor={item => item.code.toString()}
+                    keyExtractor={item => "Item_code"+item.code.toString()}
                     renderItem={({ item }) => (
                       <>
                           <Plate
@@ -98,6 +96,7 @@ class PlateList extends Component {
                           />
                           <Text>Click to select the quantity:</Text>
                           <TextInput
+                              style={{borderWidth: 3, borderColor: "blue", padding: 5}}
                               keyboardType='number-pad'
                               key={item.code+'_pad'}
                               id={item.code+'_padID'}
@@ -108,7 +107,7 @@ class PlateList extends Component {
                       </>
                 )}
                 />
-                <Text>Then click to update your order!</Text>
+                <Text style={{marginTop: 12}}>Then click to update your order!</Text>
                 <UpdateButton
                     key={'UpdateButton'}
                     title="Update Order"
@@ -116,6 +115,7 @@ class PlateList extends Component {
                     route={this.props.route}
                     order={this.state.current_order}
                     order_code={this.props.order_code}
+                    ip_address={this.props.ip_address}
                 />
             </>
             )}

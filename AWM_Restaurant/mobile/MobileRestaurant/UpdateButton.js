@@ -26,7 +26,7 @@ class UpdateButton extends Component {
 			    if(xhr.status === 200){
                     var resp = JSON.parse(xhr.response);
                     this.props.navigation.navigate('Home');
-                    this.props.navigation.navigate('Details',{ order_code: this.props.order_code });
+                    this.props.navigation.navigate('Details',{ order_code: this.props.order_code, ip_address: this.props.ip_address });
                 }
                 else
                 {
@@ -35,7 +35,7 @@ class UpdateButton extends Component {
             }
 		}
 
-		xhr.open("PUT", "http://192.168.1.127:8080/restaurant/m/order", true);
+		xhr.open("PUT", "http://"+this.props.ip_address+"/restaurant/m/order", true);
 		xhr.setRequestHeader("Content-type", "application/json");
 		//xhr.setRequestHeader("X-CSRFToken", csrftoken)
 		xhr.send(json_obj);

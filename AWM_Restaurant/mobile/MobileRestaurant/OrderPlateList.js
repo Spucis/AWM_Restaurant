@@ -23,7 +23,7 @@ class PlateList extends Component {
 		{
 			if (xhr.readyState === 4)
 			{
-			    if(xhr.status == 200)
+			    if(xhr.status >= 200 && xhr.status < 300)
 			    {
 			        var resp = JSON.parse(xhr.response);
 			        var order = resp['order']
@@ -76,14 +76,15 @@ class PlateList extends Component {
   render() {
   const { data, isLoading } = this.state;
     return (
-    <View style={{ flex: 1, padding: 24 }}>
+    <View key="View_Orderplatelist" style={{ flex: 1.2, padding: 6 }}>
         {isLoading ? <ActivityIndicator/> : (
             <FlatList
             id='OrderPlatesList'
             data={data.pds}
             key="OrderPlateListKey"
+            keyExtractor={(item) => "Item_"+(item.plate.code).toString() }
             renderItem={({ item }) => (
-              <Plate key={"orderedPlateComponent_"+item.plate.code} item={item} ordered={true}/>
+              <Plate key={"orderedPlateComponent_"+item.plate.code.toString()} item={item} ordered={true}/>
             )}
           />
         )}

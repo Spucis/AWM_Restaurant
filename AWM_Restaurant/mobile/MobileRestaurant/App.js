@@ -15,6 +15,7 @@ import UpdateButton from './UpdateButton'
 function HomeScreen({navigation}) {
  const ip_address = "192.168.1.33:8080"
  const [value, onChangeText] = React.useState('');
+
   return (
   <View style={styles.container}>
       <Text>Order number</Text>
