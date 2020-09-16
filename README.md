@@ -58,5 +58,5 @@ Tutti i pacchetti richiesti possono essere installati utilizzando [pip3](https:/
 Eventualmente, potrebbe interessare la creazione di un virtualenv mediante [venv](https://docs.python.org/3/library/venv.html).
 
 ## Contributors
-* Alessio Ruggi - ??? - ??mail?? 
+* Alessio Ruggi - 138528 - 203689@studenti.unimore.it 
 * Marco Cagrandi - 138763 - 203232@studenti.unimore.it
