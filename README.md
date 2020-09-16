@@ -5,7 +5,7 @@
 
 E' composta da tre parti:
 * **Server-side**: sviluppata in linguaggio Python utilizzando il framework [Django](https://www.djangoproject.com/) (Versione 2.2);
-* **Client-side**, applicazione front-end Web: sviluppata utilizzando [React](https://it.reactjs.org/), JavaScript e richieste AJAX;
+* **Client-side**, front-end Web: applicazione **CRUD** sviluppata utilizzando [React](https://it.reactjs.org/), JavaScript e richieste AJAX;
 * **Mobile-side**, applicazione per dispositivi mobili: sviluppata utilizzando [ReactNative](https://reactnative.dev/) ed [Expo](https://expo.io/).
 
 ## Usage
